@@ -27,11 +27,10 @@ build:
   stage: build
   script:
     - echo "Building"
-    - mkdir build
-    - touch build/info.txt
+    - npm run build
 
 test:
   stage: test
   script:
     - echo "Testing"
-    - test -f "build/info.txt"
+    - npm run test
