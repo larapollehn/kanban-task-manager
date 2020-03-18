@@ -8,23 +8,19 @@ import { Provider } from 'react-redux';
 let configureStore : Function;
 
 if(process.env.NODE_ENV === 'development'){
-    configureStore = require('./store/configureStore.dev').configureStore;
+    configureStore = require('./store/configureStore.dev.js').configureStore;
 }else{
-    configureStore = require('./store/configureStore.prod').configureStore;
+    configureStore = require('./store/configureStore.prod.js').configureStore;
 }
 
 const store = configureStore();
 
-class App extends Component {
-  render() {
+export default function App() {
     return (
-      <Provider value={store}>
+      <Provider store={store}>
         <div className="App">
           <Page title={"Hello World!"} />
         </div>
       </Provider>
     );
-  }
 }
-
-export default App;
