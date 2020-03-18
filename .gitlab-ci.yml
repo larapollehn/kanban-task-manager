@@ -7,10 +7,11 @@ stages:
   - test
 
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
 
-install-all:
+install-dependencies:
   stage: install
   script:
     - npm install
