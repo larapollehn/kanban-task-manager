@@ -1,13 +1,19 @@
+image: node:latest
+
 stages:
   - lint
   - build
   - test
 
-lint:
+eslint:
   stage: lint
   script:
     - echo "Linting"
-    - npm i eslint
+    -
+      npm install eslint \
+      eslint-config-airbnb \
+      eslint-plugin-react
+    - eslint --init
     - node_modules/eslint/bin/eslint.js
 
 build:
