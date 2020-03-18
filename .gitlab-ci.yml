@@ -22,6 +22,11 @@ install-dependencies:
 
 eslint:
   stage: lint
+  cache:
+    policy: pull
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
   script:
     - echo "Linting"
     - eslint --init
