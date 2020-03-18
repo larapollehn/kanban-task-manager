@@ -1,6 +1,14 @@
 stages:
+  - lint
   - build
   - test
+
+lint:
+  stage: lint
+  script:
+    - echo "Linting"
+    - npm i eslint
+    - node_modules/eslint/bin/eslint.js
 
 build:
   stage: build
