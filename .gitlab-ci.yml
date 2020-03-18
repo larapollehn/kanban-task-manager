@@ -9,12 +9,9 @@ eslint:
   stage: lint
   script:
     - echo "Linting"
-    -
-      npm install eslint \
-      eslint-config-airbnb \
-      eslint-plugin-react
+    - npm install eslint
     - eslint --init
-    - node_modules/eslint/bin/eslint.js
+    - eslint node_modules/eslint/bin/eslint.js
 
 build:
   stage: build
