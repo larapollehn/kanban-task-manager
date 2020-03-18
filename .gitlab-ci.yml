@@ -1,15 +1,20 @@
 image: node:latest
 
 stages:
+  - install
   - lint
   - build
   - test
+
+install-all:
+  stage: install
+  script:
+    - npm install
 
 eslint:
   stage: lint
   script:
     - echo "Linting"
-    - npm install eslint
     - eslint --init
     - eslint src/*.js
 
