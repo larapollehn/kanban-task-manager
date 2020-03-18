@@ -2,12 +2,13 @@ image: node:latest
 
 stages:
   - install
-  - build
   - lint
+  - build
   - test
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
   paths:
     - node_modules/
 
@@ -20,11 +21,6 @@ install-dependencies:
   script:
     - npm install
 
-build:
-  stage: build
-  script:
-    - npm run build
-
 eslint:
   stage: lint
   cache:
@@ -33,9 +29,12 @@ eslint:
     paths:
       - node_modules/
   script:
-    - ls
     - eslint --init
-    - eslint ./node_modules/bin/eslint.js
+
+build:
+  stage: build
+  script:
+    - npm run build
 
 test:
   stage: test
