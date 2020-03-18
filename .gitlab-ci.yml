@@ -20,6 +20,11 @@ install-dependencies:
   script:
     - npm install
 
+build:
+  stage: build
+  script:
+    - npm run build
+
 eslint:
   stage: lint
   cache:
@@ -28,18 +33,11 @@ eslint:
     paths:
       - node_modules/
   script:
-    - echo "Linting"
+    - ls
     - eslint --init
-    - eslint src/*.js
-
-build:
-  stage: build
-  script:
-    - echo "Building"
-    - npm run build
+    - eslint ./node_modules/bin/eslint.js
 
 test:
   stage: test
   script:
-    - echo "Testing"
     - npm run test
