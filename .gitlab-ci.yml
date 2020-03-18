@@ -1,21 +1,9 @@
 image: node:latest
 
 stages:
-  - install
   - lint
   - build
   - test
-
-cache:
-  untracked: true
-  key: "$CI_BUILD_REF_NAME"
-  paths:
-    - node_modules/
-
-install-dependencies:
-  stage: install
-  script:
-    - npm install
 
 eslint:
   stage: lint
@@ -27,9 +15,11 @@ eslint:
 build:
   stage: build
   script:
+    - npm install
     - npm run build
 
 test:
   stage: test
   script:
+    - npm install
     - npm run test
