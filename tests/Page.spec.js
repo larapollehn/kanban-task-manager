@@ -6,7 +6,7 @@ import Page from "../src/components/Page";
 describe('Page', () =>{
     test('Page snapshot renders', () => {
         const tree = renderer
-            .create(<Page title={"Hi Bitches!"}/>)
+            .create(<Page title={"Hi Long!"}/>)
             .toJSON();
         expect(tree).toMatchSnapshot();
     });
