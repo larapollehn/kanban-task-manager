@@ -2,8 +2,8 @@ image: node:latest
 
 stages:
   - install
-  - lint
   - build
+  - lint
   - test
 
 cache:
