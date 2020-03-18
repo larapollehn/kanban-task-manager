@@ -9,8 +9,8 @@ eslint:
   stage: lint
   script:
     - npm install
-    - eslint --init
-    - eslint src/*.js
+    - node_modules/.bin/eslint --init
+    - node_modules/.bin/eslint src/*.js
 
 build:
   stage: build
