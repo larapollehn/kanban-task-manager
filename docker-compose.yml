@@ -1,0 +1,8 @@
+version: '3.3'
+
+services:
+  kiwi-frontend:
+    container_name: kiwi-frontend
+    build: .
+    ports:
+      - '80:3000'
