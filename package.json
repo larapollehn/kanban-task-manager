@@ -21,10 +21,10 @@
     "react-test-renderer": "^16.13.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest --config ./jest.config.json",
-    "test:watch": "npm run test -- --watch",
-    "lint": "./node_modules/.bin/eslint src/*.js"
+    "start": "NODE_PATH=./src react-scripts start",
+    "build": "NODE_PATH=./src react-scripts build",
+    "test": "NODE_PATH=./src jest --config ./jest.config.json",
+    "test:watch": "NODE_PATH=./src npm run test -- --watch",
+    "lint": "NODE_PATH=./src ./node_modules/.bin/eslint src/*.js"
   }
 }
