@@ -9,16 +9,14 @@ eslint:
   stage: lint
   script:
     - npm install
-    - node_modules/.bin/eslint src/*.js
+    - eslint src/*.js
 
 build:
   stage: build
   script:
-    - npm install
     - npm run build
 
 test:
   stage: test
   script:
-    - npm install
     - npm run test
