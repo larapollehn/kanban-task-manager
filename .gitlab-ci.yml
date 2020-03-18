@@ -6,6 +6,10 @@ stages:
   - build
   - test
 
+cache:
+  paths:
+    - node_modules/
+
 install-all:
   stage: install
   script:
@@ -24,9 +28,6 @@ build:
     - echo "Building"
     - mkdir build
     - touch build/info.txt
-  artifacts:
-    paths:
-      - build/
 
 test:
   stage: test
