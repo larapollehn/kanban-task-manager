@@ -9,7 +9,7 @@ eslint:
   stage: lint
   script:
     - npm install
-    - eslint src/*.js
+    - npm run lint
 
 build:
   stage: build
