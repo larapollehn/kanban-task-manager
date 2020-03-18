@@ -11,7 +11,7 @@ eslint:
     - echo "Linting"
     - npm install eslint
     - eslint --init
-    - eslint node_modules/eslint/bin/eslint.js
+    - eslint src/*.js
 
 build:
   stage: build
