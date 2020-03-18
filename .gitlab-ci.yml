@@ -11,11 +11,6 @@ eslint:
     - npm install
     - npm run lint
 
-build:
-  stage: build
-  script:
-    - npm run build
-
 test:
   stage: test
   script:
