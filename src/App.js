@@ -1,15 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import './css/styles.css';
-import Page from "./components/ComponentA";
+
+import '../public/stylo.css';
 import store from './stores/store';
+import Home from "./components/Home";
 
 export default function App() {
     return (
         <Provider store={store}>
             <div className="App">
-                <Page/>
+                <Home/>
             </div>
         </Provider>
     );
