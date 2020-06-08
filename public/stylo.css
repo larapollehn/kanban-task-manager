@@ -10,5 +10,15 @@ body{
 }
 
 .boardContainer{
-    background-color: yellow;
+    padding-top: 200px;
+}
+
+.board{
+    display: inline-block;
+    width: 300px;
+    height:150px;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 0 50px;
+    text-align: center;
 }

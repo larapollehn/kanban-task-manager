@@ -27,13 +27,13 @@ class Home extends React.Component {
                 </div>
 
                 <div className="boardContainer">
-                    <div id={"board1"} className={"board1"} onClick={this.handleBoardClick}>
+                    <div id={"board1"} className={"board board1"} onClick={this.handleBoardClick}>
                         <h3>{this.props.board1.name}</h3>
                     </div>
-                    <div id={"board2"} className={"board2"} onClick={this.handleBoardClick}>
+                    <div id={"board2"} className={"board board2"} onClick={this.handleBoardClick}>
                         <h3>{this.props.board2.name}</h3>
                     </div>
-                    <div id={"board3"} className={"board3"} onClick={this.handleBoardClick}>
+                    <div id={"board3"} className={"board board3"} onClick={this.handleBoardClick}>
                         <h3>{this.props.board3.name}</h3>
                     </div>
                 </div>
