@@ -30,6 +30,7 @@ class BoardView extends React.Component {
         this.dropHandler = this.dropHandler.bind(this);
         this.dragOverHandler = this.dragOverHandler.bind(this);
         this.appendIssueToColumn = this.appendIssueToColumn.bind(this);
+        this.removeIssueFromColumn = this.removeIssueFromColumn.bind(this);
     }
 
     /**
@@ -100,6 +101,38 @@ class BoardView extends React.Component {
         }
     }
 
+    removeIssueFromColumn(){
+        let category = this.state.dragIssue[0];
+        let index = this.state.dragIssue[1];
+        let stateColumns = this.state.columns;
+        stateColumns[category]['issues'].splice(index, 1);
+
+        let stateBoard = this.state.board;
+        stateBoard.columns = this.state.columns;
+        this.setState({
+            columns: stateColumns,
+            board: stateBoard
+        })
+        console.assert(localStorage.getItem("boards") !== null);
+        let boards = JSON.parse(localStorage.getItem('boards'));
+
+        console.assert(boards.length === 3);
+        if (this.state.id === 'board1') {
+            boards[0] = this.state.board;
+            localStorage.setItem('boards', JSON.stringify(boards));
+            this.props.setBoard1(this.state.board);
+        } else if (this.state.id === 'board2') {
+            boards[1] = this.state.board;
+            localStorage.setItem('boards', JSON.stringify(boards));
+            this.props.setBoard2(this.state.board);
+
+        } else if (this.state.id === 'board3') {
+            boards[2] = this.state.board;
+            localStorage.setItem('boards', JSON.stringify(boards));
+            this.props.setBoard3(this.state.board);
+        }
+    }
+
     dragstartHandler(event){
         let column = event.target.parentElement.parentElement.id;
         let issue = event.target.id;
@@ -109,6 +142,7 @@ class BoardView extends React.Component {
         this.setState({
             dragIssue: [column, issue, theIssue]
         })
+
     }
 
     dragOverHandler(event){
@@ -125,8 +159,8 @@ class BoardView extends React.Component {
             throw new Error('Place is not meant to be a drop area');
         }
         console.log(category.id);
-
         this.appendIssueToColumn(category.id, this.state.dragIssue[2].title, this.state.dragIssue[2].priority);
+        this.removeIssueFromColumn();
     }
 
 
