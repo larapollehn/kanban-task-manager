@@ -64,6 +64,7 @@ class BoardView extends React.Component {
         console.assert(priority !== null, "Priority must not be null");
         console.assert(typeof priority === "number", "Priority should be a number");
 
+        console.log(category, priority);
         this.appendIssueToColumn(category, issueTitle, priority);
 
         this.displayAddIssueForm();
@@ -118,15 +119,14 @@ class BoardView extends React.Component {
         event.preventDefault();
         console.log(this.state.dragIssue);
         let category;
-        if (event.target.nodeName === 'LI'){
-            category = event.target.parentElement.parentElement;
-        } else if (event.target.nodeName === 'DIV'){
+        if (event.target.nodeName === 'DIV'){
             category = event.target;
         } else {
             throw new Error('Place is not meant to be a drop area');
         }
         console.log(category.id);
 
+        this.appendIssueToColumn(category.id, this.state.dragIssue[2].title, this.state.dragIssue[2].priority);
     }
 
 
