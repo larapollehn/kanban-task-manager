@@ -32,7 +32,6 @@ class BoardView extends React.Component {
      */
     displayAddIssueForm() {
         let visibilityStatus = document.getElementById("createIssueContainer").style.display;
-        console.log(visibilityStatus);
         if (visibilityStatus === 'none') {
             document.getElementById("createIssueContainer").style.display = 'block';
         } else if (visibilityStatus === 'block') {
@@ -53,22 +52,22 @@ class BoardView extends React.Component {
         let priority;
         for (let i = 0; i < radios.length; i++) {
             if (radios[i].checked) {
-                priority = radios[i].value;
+                priority = i;
                 break;
             }
         }
-        console.assert(priority, "Priority must not be null");
+        console.assert(priority !== null, "Priority must not be null");
         console.assert(typeof priority === "number", "Priority should be a number");
 
-        let issue = new Issue(issueTitle, priority, category);
-
         let stateColumns = this.state.columns;
-        stateColumns[category]['issues'].push(issue);
-        this.setState({
-            columns: stateColumns
-        })
+        stateColumns[category]['issues'].push(new Issue(issueTitle, priority, category));
 
-        this.state.board.columns = this.state.columns;
+        let stateBoard = this.state.board;
+        stateBoard.columns = this.state.columns;
+        this.setState({
+            columns: stateColumns,
+            board: stateBoard
+        })
         console.assert(localStorage.getItem("boards") !== null);
         let boards = JSON.parse(localStorage.getItem('boards'));
 
@@ -87,13 +86,12 @@ class BoardView extends React.Component {
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard3(this.state.board);
         }
-
+        this.displayAddIssueForm();
     }
 
     render() {
-        this.state.columns.map(function (column) {
-            console.assert(column["name"] != null);
-        })
+        console.log(this.state.columns);
+
         return (
             <div className={"boardViewContainer"}>
                 <div id={"boardViewNavBar"}>
@@ -111,7 +109,8 @@ class BoardView extends React.Component {
                                 <h3 id={"columnName"}>{column['name']}</h3>
                                 <ul id={"columnIssues"}>
                                     {
-                                        column['issues'].map((issue, i) =>
+                                        column['issues'].sort((a, b) => a['priority'] - b['priority'])
+                                                        .map((issue, i) =>
                                             <li key={i} className={'issue'}>{issue['title']}</li>
                                         )
                                     }
@@ -156,9 +155,8 @@ class BoardView extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.columns, this.props.board2);
+        console.log(this.state.columns[0].issues);
     }
-
 }
 
 const mapStateToProps = state => ({
