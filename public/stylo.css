@@ -10,7 +10,8 @@ body{
 }
 
 .boardContainer{
-    padding-top: 200px;
+    padding-top: 170px;
+    text-align: center;
 }
 
 .board{
@@ -20,5 +21,11 @@ body{
     border: 1px solid black;
     border-radius: 8px;
     margin: 0 50px;
+    text-align: center;
+}
+
+.createBoardContainer{
+    margin-top: 80px;
+    display: none;
     text-align: center;
 }

@@ -2,7 +2,6 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 import Board from "../Models/Board";
-import CreateBoard from "./CreateBoard";
 
 class Home extends React.Component {
     constructor(props) {
@@ -10,26 +9,26 @@ class Home extends React.Component {
         this.state = {}
         this.handleBoardClick = this.handleBoardClick.bind(this);
         this.redirectToBoard = this.redirectToBoard.bind(this);
-        this.createBoard = this.createBoard.bind(this);
+        this.displayCreateForm = this.displayCreateForm.bind(this);
     }
 
     handleBoardClick(event) {
         let id = event.target.id;
         if (id === 'board1'){
             if (this.props.board1.name === 'untitled'){
-                this.createBoard(id);
+                this.displayCreateForm(id);
             } else {
                 this.redirectToBoard(id);
             }
         } else if (id === 'board2'){
             if (this.props.board2.name === 'untitled'){
-                this.createBoard(id);
+                this.displayCreateForm(id);
             } else {
                 this.redirectToBoard(id);
             }
         } else if (id === 'board3'){
             if (this.props.board3.name === 'untitled'){
-                this.createBoard(id);
+                this.displayCreateForm(id);
             } else {
                 this.redirectToBoard(id);
             }
@@ -40,7 +39,9 @@ class Home extends React.Component {
         console.log('redirect to', id);
     }
 
-    createBoard(id){
+    displayCreateForm(id){
+        let form = document.getElementById('createBoardContainer');
+        form.style.display = 'block';
         console.log('create', id);
     }
 
@@ -65,7 +66,42 @@ class Home extends React.Component {
                     </div>
                 </div>
 
-                <CreateBoard/>
+                <div id={"createBoardContainer"} className={"createBoardContainer"}>
+                    <h3>Create your Kanban Board</h3>
+                    <div>
+                        <label>Board Name</label>
+                        <input type={"text"} name={"boardName"} id={"boardName"} placeholder={"Board name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 1</label>
+                        <input type={"text"} name={"column1"} id={"column1"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 2</label>
+                        <input type={"text"} name={"column2"} id={"column2"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 3</label>
+                        <input type={"text"} name={"column3"} id={"column3"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 4</label>
+                        <input type={"text"} name={"column4"} id={"column4"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 5</label>
+                        <input type={"text"} name={"column5"} id={"column5"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 6</label>
+                        <input type={"text"} name={"column6"} id={"column6"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 7</label>
+                        <input type={"text"} name={"column7"} id={"column7"} placeholder={"Column name..."}/>
+                    </div>
+                    <button>Create Board</button>
+                </div>
             </div>
         )
     }
