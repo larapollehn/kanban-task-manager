@@ -25,6 +25,7 @@ body{
 }
 
 .createBoardContainer{
+    border: 1px solid black;
     margin-top: 80px;
     display: none;
     text-align: center;
@@ -60,6 +61,7 @@ body{
 
 .boardViewLi:last-child{
     margin: 10px 15px;
+    cursor: pointer;
 }
 
 .boardViewLi:nth-child(2){
@@ -68,7 +70,7 @@ body{
 
 .columnsContainer{
     margin-top: 2%;
-    min-height: 80%;
+    min-height: 50%;
     width: 100%;
     text-align: center;
 }
@@ -85,4 +87,11 @@ body{
     height: 30px;
     font-size: 25px;
     border-bottom: 1px solid black;
+}
+
+#createIssueContainer{
+    display: none;
+    text-align: center;
+    line-height: 2;
+    border: 1px solid black;
 }
