@@ -31,6 +31,7 @@ class BoardView extends React.Component {
         this.dragOverHandler = this.dragOverHandler.bind(this);
         this.appendIssueToColumn = this.appendIssueToColumn.bind(this);
         this.removeIssueFromColumn = this.removeIssueFromColumn.bind(this);
+        this.saveChangedBoard = this.saveChangedBoard.bind(this);
     }
 
     /**
@@ -74,31 +75,7 @@ class BoardView extends React.Component {
     appendIssueToColumn(category, issueTitle, priority){
         let stateColumns = this.state.columns;
         stateColumns[category]['issues'].push(new Issue(issueTitle, priority, category));
-
-        let stateBoard = this.state.board;
-        stateBoard.columns = this.state.columns;
-        this.setState({
-            columns: stateColumns,
-            board: stateBoard
-        })
-        console.assert(localStorage.getItem("boards") !== null);
-        let boards = JSON.parse(localStorage.getItem('boards'));
-
-        console.assert(boards.length === 3);
-        if (this.state.id === 'board1') {
-            boards[0] = this.state.board;
-            localStorage.setItem('boards', JSON.stringify(boards));
-            this.props.setBoard1(this.state.board);
-        } else if (this.state.id === 'board2') {
-            boards[1] = this.state.board;
-            localStorage.setItem('boards', JSON.stringify(boards));
-            this.props.setBoard2(this.state.board);
-
-        } else if (this.state.id === 'board3') {
-            boards[2] = this.state.board;
-            localStorage.setItem('boards', JSON.stringify(boards));
-            this.props.setBoard3(this.state.board);
-        }
+        this.saveChangedBoard(stateColumns);
     }
 
     removeIssueFromColumn(){
@@ -106,11 +83,14 @@ class BoardView extends React.Component {
         let index = this.state.dragIssue[1];
         let stateColumns = this.state.columns;
         stateColumns[category]['issues'].splice(index, 1);
+        this.saveChangedBoard(stateColumns);
+    }
 
+    saveChangedBoard(columns){
         let stateBoard = this.state.board;
         stateBoard.columns = this.state.columns;
         this.setState({
-            columns: stateColumns,
+            columns: columns,
             board: stateBoard
         })
         console.assert(localStorage.getItem("boards") !== null);
