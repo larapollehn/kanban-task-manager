@@ -2,8 +2,8 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
-import Board from "../Models/Board";
-import Column from "../Models/Column";
+import Board from "../models/Board";
+import Column from "../models/Column";
 
 class Home extends React.Component {
     constructor(props) {
@@ -52,7 +52,8 @@ class Home extends React.Component {
         this.props.history.push({
             pathname: '/boardView',
             state: {
-                board: board
+                board: board,
+                id: id
             }
         })
     }

@@ -76,11 +76,11 @@ body{
 }
 
 .kanbanColumn{
-    text-align: center;
     min-height: 300px;
     width: 22%;
-    display: inline-block;
+    display: block;
     border: 1px solid black;
+    float: left;
 }
 
 #columnName{
