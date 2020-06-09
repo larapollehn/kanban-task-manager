@@ -8,6 +8,9 @@ import Column from "../models/Column";
 class Home extends React.Component {
     constructor(props) {
         super(props)
+        /*
+         *
+         */
         this.state = {
             currentBoard: 0,
         }
@@ -17,6 +20,10 @@ class Home extends React.Component {
         this.createBoard = this.createBoard.bind(this);
     }
 
+    /**
+     *
+     * @param event
+     */
     handleBoardClick(event) {
         let id = event.target.id;
         if (id === 'board1'){
@@ -40,6 +47,10 @@ class Home extends React.Component {
         }
     }
 
+    /**
+     *
+     * @param id
+     */
     redirectToBoard(id){
         let board;
         if (id === 'board1'){
@@ -58,8 +69,14 @@ class Home extends React.Component {
         })
     }
 
+    /**
+     *
+     * @param id
+     * @param display
+     */
     displayCreateForm(id, display){
         let form = document.getElementById('createBoardContainer');
+        console.assert(form !== null);
         if(display){
             form.style.display = 'block';
         } else {
@@ -73,6 +90,9 @@ class Home extends React.Component {
     createBoard(){
         let id = this.state.currentBoard;
         const boardName = document.getElementById("boardName").value;
+        /*
+         * Hard coded. Not good
+         */
         const column1 = document.getElementById("column1").value;
         const column2 = document.getElementById("column2").value;
         const column3 = document.getElementById("column3").value;
@@ -97,6 +117,8 @@ class Home extends React.Component {
             this.props.board3.name = boardName;
             this.props.board3.columns = columns;
             boards[2] = new Board(boardName, columns);
+        }else{
+            throw new Error("Invalid id for board");
         }
         localStorage.setItem('boards', JSON.stringify(boards));
 
@@ -106,6 +128,7 @@ class Home extends React.Component {
     }
 
     render() {
+        console.assert(this.props.board1 !== null && this.props.board2 !== null && this.props.board3 !== null);
         return (
             <div id="homeContainer">
                 <div className="homeTitles">
@@ -182,6 +205,7 @@ class Home extends React.Component {
             this.props.setBoard2(boards[1]);
             this.props.setBoard3(boards[2]);
         }
+        console.assert(localStorage.getItem("boards") !== null);
     }
 
 }

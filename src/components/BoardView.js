@@ -4,70 +4,79 @@ import {connect} from "react-redux";
 import Issue from "../models/Issue";
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 
+/**
+ *
+ */
 class BoardView extends React.Component {
     constructor(props) {
         super(props);
         let state = this.props.location.state;
+
+        /*
+         *
+         */
         this.state = {
             id: state.id,
             name: state.board.name,
             columns: state.board.columns,
             issues: state.board.columns.issues,
-            priorities: [1,2,3,4],
+            priorities: [1, 2, 3, 4],
             board: state.board
         }
-
         this.addIssue = this.addIssue.bind(this);
         this.displayAddIssueForm = this.displayAddIssueForm.bind(this);
     }
 
-    displayAddIssueForm(){
+    /**
+     *
+     */
+    displayAddIssueForm() {
         let visibilityStatus = document.getElementById("createIssueContainer").style.display;
         console.log(visibilityStatus);
-        if(visibilityStatus === 'none'){
+        if (visibilityStatus === 'none') {
             document.getElementById("createIssueContainer").style.display = 'block';
-        } else if (visibilityStatus === 'block'){
+        } else if (visibilityStatus === 'block') {
             document.getElementById("createIssueContainer").style.display = 'none';
         } else {
             document.getElementById("createIssueContainer").style.display = 'block';
         }
     }
 
-    addIssue(){
+    /**
+     *
+     */
+    addIssue() {
         let issueTitle = document.getElementById("issueTitle").value;
         let category = document.getElementById("category").value;
 
         let radios = document.getElementsByName("radio");
         let priority;
-        for (let i = 0; i < radios.length; i++){
-            if (radios[i].checked){
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
                 priority = radios[i].value;
+                break;
             }
         }
+        console.assert(priority, "Priority must not be null");
+        console.assert(typeof priority === "number", "Priority should be a number");
 
         let issue = new Issue(issueTitle, priority, category);
-
-        if (this.state.id === 'board1'){
-            this.state.columns[category]['issues'].push(issue);
-            this.state.board.columns = this.state.columns;
-            let boards = JSON.parse(localStorage.getItem('boards'));
-            boards[0]= this.state.board;
+        this.state.columns[category]['issues'].push(issue);
+        this.state.board.columns = this.state.columns;
+        console.assert(localStorage.getItem("boards") !== null);
+        let boards = JSON.parse(localStorage.getItem('boards'));
+        console.assert(boards.length === 3);
+        if (this.state.id === 'board1') {
+            boards[0] = this.state.board;
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard1(this.state.board);
-
-        } else if (this.state.id === 'board2'){
-            this.state.columns[category]['issues'].push(issue);
-            this.state.board.columns = this.state.columns;
-            let boards = JSON.parse(localStorage.getItem('boards'));
-            boards[1]= this.state.board;
+        } else if (this.state.id === 'board2') {
+            boards[1] = this.state.board;
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard2(this.state.board);
 
-        } else if (this.state.id === 'board3'){
-            this.state.columns[category]['issues'].push(issue);
-            this.state.board.columns = this.state.columns;
-            let boards = JSON.parse(localStorage.getItem('boards'));
-            boards[2]= this.state.board;
+        } else if (this.state.id === 'board3') {
+            boards[2] = this.state.board;
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard3(this.state.board);
         }
@@ -142,6 +151,7 @@ class BoardView extends React.Component {
     componentDidMount() {
         console.log(this.state.columns, this.props.board2);
     }
+
 }
 
 const mapStateToProps = state => ({
@@ -151,13 +161,3 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {setBoard1, setBoard2, setBoard3})(BoardView));
-
-/**
- {
-                                        column['issues'].map((issue, i) =>
-                                            <div className={'issue'}>
-                                                <h3>issue</h3>
-                                            </div>
-                                        )
-                                    }
- **/
