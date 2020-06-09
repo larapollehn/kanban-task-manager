@@ -2,17 +2,46 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 import Board from "../Models/Board";
+import CreateBoard from "./CreateBoard";
 
 class Home extends React.Component {
     constructor(props) {
         super(props)
         this.state = {}
         this.handleBoardClick = this.handleBoardClick.bind(this);
+        this.redirectToBoard = this.redirectToBoard.bind(this);
+        this.createBoard = this.createBoard.bind(this);
     }
 
     handleBoardClick(event) {
-        let id = event.target.parentElement.id;
-        console.log('clicked', id);
+        let id = event.target.id;
+        if (id === 'board1'){
+            if (this.props.board1.name === 'untitled'){
+                this.createBoard(id);
+            } else {
+                this.redirectToBoard(id);
+            }
+        } else if (id === 'board2'){
+            if (this.props.board2.name === 'untitled'){
+                this.createBoard(id);
+            } else {
+                this.redirectToBoard(id);
+            }
+        } else if (id === 'board3'){
+            if (this.props.board3.name === 'untitled'){
+                this.createBoard(id);
+            } else {
+                this.redirectToBoard(id);
+            }
+        }
+    }
+
+    redirectToBoard(id){
+        console.log('redirect to', id);
+    }
+
+    createBoard(id){
+        console.log('create', id);
     }
 
     render() {
@@ -35,6 +64,8 @@ class Home extends React.Component {
                         <h3>{this.props.board3.name}</h3>
                     </div>
                 </div>
+
+                <CreateBoard/>
             </div>
         )
     }
