@@ -42,7 +42,7 @@ body{
 }
 
 #boardViewUl{
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -94,4 +94,14 @@ body{
     text-align: center;
     line-height: 2;
     border: 1px solid black;
+}
+
+.issue{
+    cursor: pointer;
+    height: 50px;
+    border: 1px solid black;
+}
+
+#columnIssues{
+    list-style-type: none;
 }

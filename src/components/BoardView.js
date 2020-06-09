@@ -21,10 +21,15 @@ class BoardView extends React.Component {
             columns: state.board.columns,
             issues: state.board.columns.issues,
             priorities: [1, 2, 3, 4],
-            board: state.board
+            board: state.board,
+            dragIssue: []
         }
         this.addIssue = this.addIssue.bind(this);
         this.displayAddIssueForm = this.displayAddIssueForm.bind(this);
+        this.dragstartHandler = this.dragstartHandler.bind(this);
+        this.dropHandler = this.dropHandler.bind(this);
+        this.dragOverHandler = this.dragOverHandler.bind(this);
+        this.appendIssueToColumn = this.appendIssueToColumn.bind(this);
     }
 
     /**
@@ -59,6 +64,12 @@ class BoardView extends React.Component {
         console.assert(priority !== null, "Priority must not be null");
         console.assert(typeof priority === "number", "Priority should be a number");
 
+        this.appendIssueToColumn(category, issueTitle, priority);
+
+        this.displayAddIssueForm();
+    }
+
+    appendIssueToColumn(category, issueTitle, priority){
         let stateColumns = this.state.columns;
         stateColumns[category]['issues'].push(new Issue(issueTitle, priority, category));
 
@@ -86,12 +97,41 @@ class BoardView extends React.Component {
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard3(this.state.board);
         }
-        this.displayAddIssueForm();
     }
 
-    render() {
-        console.log(this.state.columns);
+    dragstartHandler(event){
+        let column = event.target.parentElement.parentElement.id;
+        let issue = event.target.id;
+        console.log(column, issue, event.target);
+        let theIssue = this.state.columns[column]['issues'][issue];
+        console.log(theIssue);
+        this.setState({
+            dragIssue: [column, issue, theIssue]
+        })
+    }
 
+    dragOverHandler(event){
+        event.preventDefault();
+    }
+
+    dropHandler(event){
+        event.preventDefault();
+        console.log(this.state.dragIssue);
+        let category;
+        if (event.target.nodeName === 'LI'){
+            category = event.target.parentElement.parentElement;
+        } else if (event.target.nodeName === 'DIV'){
+            category = event.target;
+        } else {
+            throw new Error('Place is not meant to be a drop area');
+        }
+        console.log(category.id);
+
+    }
+
+
+
+    render() {
         return (
             <div className={"boardViewContainer"}>
                 <div id={"boardViewNavBar"}>
@@ -105,13 +145,13 @@ class BoardView extends React.Component {
                 <div className={"columnsContainer"}>
                     {
                         this.state.columns.map((column, i) =>
-                            <div key={i} id={column['name']} className={"kanbanColumn"}>
+                            <div key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                                 <h3 id={"columnName"}>{column['name']}</h3>
-                                <ul id={"columnIssues"}>
+                                <ul id={"columnIssues"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                                     {
                                         column['issues'].sort((a, b) => a['priority'] - b['priority'])
                                                         .map((issue, i) =>
-                                            <li key={i} className={'issue'}>{issue['title']} - {issue['priority']}</li>
+                                            <li key={i} id={i} className={'issue'} draggable={'true'} onDragStart={this.dragstartHandler}>{issue['title']} - {issue['priority']}</li>
                                         )
                                     }
                                 </ul>
@@ -154,9 +194,6 @@ class BoardView extends React.Component {
         )
     }
 
-    componentDidMount() {
-        console.log(this.state.columns[0].issues);
-    }
 }
 
 const mapStateToProps = state => ({
