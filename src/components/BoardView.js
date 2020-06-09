@@ -111,7 +111,7 @@ class BoardView extends React.Component {
                                     {
                                         column['issues'].sort((a, b) => a['priority'] - b['priority'])
                                                         .map((issue, i) =>
-                                            <li key={i} className={'issue'}>{issue['title']}</li>
+                                            <li key={i} className={'issue'}>{issue['title']} - {issue['priority']}</li>
                                         )
                                     }
                                 </ul>
