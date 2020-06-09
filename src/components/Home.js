@@ -7,7 +7,7 @@ class Home extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentBoard: 0
+            currentBoard: 0,
         }
         this.handleBoardClick = this.handleBoardClick.bind(this);
         this.redirectToBoard = this.redirectToBoard.bind(this);
@@ -38,8 +38,13 @@ class Home extends React.Component {
         }
     }
 
-    redirectToBoard(id){
-        console.log('redirect to', id);
+    redirectToBoard(boardId){
+        this.props.history.push({
+            pathname: '/boardView',
+            state: {
+                id: boardId
+            }
+        })
     }
 
     displayCreateForm(id, display){
@@ -85,6 +90,8 @@ class Home extends React.Component {
         localStorage.setItem('boards', JSON.stringify(boards));
 
         this.displayCreateForm();
+
+        this.redirectToBoard(id);
     }
 
     render() {
