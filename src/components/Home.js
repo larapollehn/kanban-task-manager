@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 import Board from "../Models/Board";
 
@@ -181,4 +182,4 @@ const mapStateToProps = state => ({
     board3: state.home.board3
 });
 
-export default connect(mapStateToProps, {setBoard1, setBoard2, setBoard3})(Home);
+export default withRouter(connect(mapStateToProps, {setBoard1, setBoard2, setBoard3})(Home));
