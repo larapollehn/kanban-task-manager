@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 import Board from "../Models/Board";
+import Column from "../Models/Column";
 
 class Home extends React.Component {
     constructor(props) {
@@ -39,11 +40,19 @@ class Home extends React.Component {
         }
     }
 
-    redirectToBoard(boardId){
+    redirectToBoard(id){
+        let board;
+        if (id === 'board1'){
+            board = this.props.board1;
+        } else if (id === 'board2'){
+            board = this.props.board2;
+        } else if (id === 'board3'){
+            board = this.props.board3;
+        }
         this.props.history.push({
             pathname: '/boardView',
             state: {
-                id: boardId
+                board: board
             }
         })
     }
@@ -71,7 +80,7 @@ class Home extends React.Component {
         const column6 = document.getElementById("column6").value;
         const column7 = document.getElementById("column7").value;
         let columns = [column1, column2, column3, column4, column5, column6, column7];
-        columns = columns.filter(el => el !== '');
+        columns = columns.filter(el => el !== '').map(column => new Column(column, []))
 
         let boards = JSON.parse(localStorage.getItem('boards'));
 

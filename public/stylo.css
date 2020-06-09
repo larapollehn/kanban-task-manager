@@ -29,3 +29,60 @@ body{
     display: none;
     text-align: center;
 }
+
+.boardViewContainer{
+    height: 100vh;
+    width: 100%;
+}
+
+#boardViewNavBar{
+    height: 5%;
+    border-bottom: 1px solid black;
+}
+
+#boardViewUl{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.boardViewLi{
+    float: right;
+}
+
+.boardViewLi:first-child{
+    float: left;
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.boardViewLi:last-child{
+    margin: 10px 15px;
+}
+
+.boardViewLi:nth-child(2){
+    margin: 10px 15px;
+}
+
+.columnsContainer{
+    margin-top: 2%;
+    min-height: 80%;
+    width: 100%;
+    text-align: center;
+}
+
+.kanbanColumn{
+    text-align: center;
+    min-height: 300px;
+    width: 22%;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+#columnName{
+    height: 30px;
+    font-size: 25px;
+    border-bottom: 1px solid black;
+}
