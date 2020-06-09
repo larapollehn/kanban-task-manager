@@ -12,6 +12,7 @@ class BoardView extends React.Component {
             id: state.id,
             name: state.board.name,
             columns: state.board.columns,
+            issues: state.board.columns.issues,
             priorities: [1,2,3,4],
             board: state.board
         }
@@ -53,17 +54,15 @@ class BoardView extends React.Component {
             boards[0]= this.state.board;
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard1(this.state.board);
+
         } else if (this.state.id === 'board2'){
             this.state.columns[category]['issues'].push(issue);
-            let board = this.state.board;
-            board.columns = this.state.columns;
-            this.setState({
-                board: board
-            })
+            this.state.board.columns = this.state.columns;
             let boards = JSON.parse(localStorage.getItem('boards'));
             boards[1]= this.state.board;
             localStorage.setItem('boards', JSON.stringify(boards));
             this.props.setBoard2(this.state.board);
+
         } else if (this.state.id === 'board3'){
             this.state.columns[category]['issues'].push(issue);
             this.state.board.columns = this.state.columns;
@@ -76,6 +75,9 @@ class BoardView extends React.Component {
     }
 
     render() {
+        this.state.columns.map(function (column) {
+            console.assert(column["name"] != null);
+        })
         return (
             <div className={"boardViewContainer"}>
                 <div id={"boardViewNavBar"}>
