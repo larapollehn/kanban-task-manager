@@ -61,10 +61,17 @@ class BoardView extends React.Component {
         console.assert(typeof priority === "number", "Priority should be a number");
 
         let issue = new Issue(issueTitle, priority, category);
-        this.state.columns[category]['issues'].push(issue);
+
+        let stateColumns = this.state.columns;
+        stateColumns[category]['issues'].push(issue);
+        this.setState({
+            columns: stateColumns
+        })
+
         this.state.board.columns = this.state.columns;
         console.assert(localStorage.getItem("boards") !== null);
         let boards = JSON.parse(localStorage.getItem('boards'));
+
         console.assert(boards.length === 3);
         if (this.state.id === 'board1') {
             boards[0] = this.state.board;
