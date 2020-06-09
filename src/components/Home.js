@@ -1,20 +1,18 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
+import Board from "../Models/Board";
 
 class Home extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            board1_done: false,
-            board2_done: false,
-            board3_done: false,
-        }
+        this.state = {}
         this.handleBoardClick = this.handleBoardClick.bind(this);
     }
 
-    handleBoardClick(event){
+    handleBoardClick(event) {
         let id = event.target.parentElement.id;
-        console.log('clicked',id);
+        console.log('clicked', id);
     }
 
     render() {
@@ -41,6 +39,26 @@ class Home extends React.Component {
         )
     }
 
+    componentDidMount() {
+        if (localStorage.getItem('boards') === null) {
+            const board1 = new Board('untitled', []);
+            const board2 = new Board('untitled', []);
+            const board3 = new Board('untitled', []);
+            this.props.setBoard1(board1);
+            this.props.setBoard2(board2);
+            this.props.setBoard3(board3);
+            const boards = JSON.stringify([board1, board2, board3]);
+            localStorage.setItem('boards', boards);
+            console.log('key DID NOT exist');
+        } else {
+            let boards = JSON.parse(localStorage.getItem('boards'));
+            this.props.setBoard1(boards[0]);
+            this.props.setBoard2(boards[1]);
+            this.props.setBoard3(boards[2]);
+            console.log('key exists');
+        }
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -49,4 +67,4 @@ const mapStateToProps = state => ({
     board3: state.home.board3
 });
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, {setBoard1, setBoard2, setBoard3})(Home);
