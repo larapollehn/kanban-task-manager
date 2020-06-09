@@ -1,5 +1,4 @@
 import {SET_BOARD_1, SET_BOARD_2, SET_BOARD_3} from "../actions/types";
-import Board from "../Models/Board";
 
 const initialState = {
     board1: {},

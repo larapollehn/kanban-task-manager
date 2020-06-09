@@ -6,29 +6,32 @@ import Board from "../Models/Board";
 class Home extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            currentBoard: 0
+        }
         this.handleBoardClick = this.handleBoardClick.bind(this);
         this.redirectToBoard = this.redirectToBoard.bind(this);
         this.displayCreateForm = this.displayCreateForm.bind(this);
+        this.createBoard = this.createBoard.bind(this);
     }
 
     handleBoardClick(event) {
         let id = event.target.id;
         if (id === 'board1'){
             if (this.props.board1.name === 'untitled'){
-                this.displayCreateForm(id);
+                this.displayCreateForm(id, true);
             } else {
                 this.redirectToBoard(id);
             }
         } else if (id === 'board2'){
             if (this.props.board2.name === 'untitled'){
-                this.displayCreateForm(id);
+                this.displayCreateForm(id, true);
             } else {
                 this.redirectToBoard(id);
             }
         } else if (id === 'board3'){
             if (this.props.board3.name === 'untitled'){
-                this.displayCreateForm(id);
+                this.displayCreateForm(id, true);
             } else {
                 this.redirectToBoard(id);
             }
@@ -39,10 +42,49 @@ class Home extends React.Component {
         console.log('redirect to', id);
     }
 
-    displayCreateForm(id){
+    displayCreateForm(id, display){
         let form = document.getElementById('createBoardContainer');
-        form.style.display = 'block';
-        console.log('create', id);
+        if(display){
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+        this.setState({
+            currentBoard: id
+        })
+    }
+
+    createBoard(){
+        let id = this.state.currentBoard;
+        const boardName = document.getElementById("boardName").value;
+        const column1 = document.getElementById("column1").value;
+        const column2 = document.getElementById("column2").value;
+        const column3 = document.getElementById("column3").value;
+        const column4 = document.getElementById("column4").value;
+        const column5 = document.getElementById("column5").value;
+        const column6 = document.getElementById("column6").value;
+        const column7 = document.getElementById("column7").value;
+        let columns = [column1, column2, column3, column4, column5, column6, column7];
+        columns = columns.filter(el => el !== '');
+
+        let boards = JSON.parse(localStorage.getItem('boards'));
+
+        if (id === "board1"){
+            this.props.board1.name = boardName;
+            this.props.board1.columns = columns;
+            boards[0] = new Board(boardName, columns);
+        } else if (id === 'board2'){
+            this.props.board2.name = boardName;
+            this.props.board2.columns = columns;
+            boards[1] = new Board(boardName, columns);
+        } else if (id === 'board3'){
+            this.props.board3.name = boardName;
+            this.props.board3.columns = columns;
+            boards[2] = new Board(boardName, columns);
+        }
+        localStorage.setItem('boards', JSON.stringify(boards));
+
+        this.displayCreateForm();
     }
 
     render() {
@@ -100,7 +142,7 @@ class Home extends React.Component {
                         <label>Column 7</label>
                         <input type={"text"} name={"column7"} id={"column7"} placeholder={"Column name..."}/>
                     </div>
-                    <button>Create Board</button>
+                    <button onClick={this.createBoard}>Create Board</button>
                 </div>
             </div>
         )
@@ -116,13 +158,11 @@ class Home extends React.Component {
             this.props.setBoard3(board3);
             const boards = JSON.stringify([board1, board2, board3]);
             localStorage.setItem('boards', boards);
-            console.log('key DID NOT exist');
         } else {
             let boards = JSON.parse(localStorage.getItem('boards'));
             this.props.setBoard1(boards[0]);
             this.props.setBoard2(boards[1]);
             this.props.setBoard3(boards[2]);
-            console.log('key exists');
         }
     }
 
