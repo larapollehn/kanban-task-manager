@@ -81,7 +81,6 @@ class BoardView extends React.Component {
         this.displayAddIssueForm();
 
         document.getElementById("issueTitle").value = '';
-        document.getElementById("category").value = '';
     }
 
     appendIssueToColumn(category, issueTitle, priority){

@@ -96,12 +96,14 @@ body{
 }
 
 .kanbanColumn{
-    min-height: 300px;
+    min-height: 500px;
+    max-height: 600px;
     width: 22%;
     display: block;
     border: 1px solid black;
     float: left;
     padding-bottom: 100px;
+    overflow: auto;
 }
 
 #columnName{
@@ -119,8 +121,11 @@ body{
 
 .issue{
     cursor: pointer;
-    height: 50px;
+    margin-bottom: 5px;
+    min-height: 50px;
     border: 1px solid black;
+    overflow-wrap: break-word;
+    padding: 5px;
 }
 
 #columnIssues{
