@@ -32,6 +32,9 @@ class BoardView extends React.Component {
         this.appendIssueToColumn = this.appendIssueToColumn.bind(this);
         this.removeIssueFromColumn = this.removeIssueFromColumn.bind(this);
         this.saveChangedBoard = this.saveChangedBoard.bind(this);
+        this.renameBoard = this.renameBoard.bind(this);
+        this.displayRenameForm = this.displayRenameForm.bind(this);
+        this.deleteBoard = this.deleteBoard.bind(this);
     }
 
     /**
@@ -66,7 +69,6 @@ class BoardView extends React.Component {
         console.assert(priority !== null, "Priority must not be null");
         console.assert(typeof priority === "number", "Priority should be a number");
 
-        console.log(category, priority);
         this.appendIssueToColumn(category, issueTitle, priority);
 
         this.displayAddIssueForm();
@@ -86,13 +88,23 @@ class BoardView extends React.Component {
         this.saveChangedBoard(stateColumns);
     }
 
-    saveChangedBoard(columns){
+    saveChangedBoard(columns, name){
         let stateBoard = this.state.board;
-        stateBoard.columns = this.state.columns;
-        this.setState({
-            columns: columns,
-            board: stateBoard
-        })
+        if(columns !== false){
+            stateBoard.columns = this.state.columns;
+            this.setState({
+                columns: columns,
+                board: stateBoard
+            })
+        } else if(name){
+            let stateBoard = this.state.board;
+            stateBoard.name = name;
+            this.setState({
+                board: stateBoard,
+                name: name
+            })
+        }
+
         console.assert(localStorage.getItem("boards") !== null);
         let boards = JSON.parse(localStorage.getItem('boards'));
 
@@ -116,9 +128,7 @@ class BoardView extends React.Component {
     dragstartHandler(event){
         let column = event.target.parentElement.parentElement.id;
         let issue = event.target.id;
-        console.log(column, issue, event.target);
         let theIssue = this.state.columns[column]['issues'][issue];
-        console.log(theIssue);
         this.setState({
             dragIssue: [column, issue, theIssue]
         })
@@ -145,7 +155,25 @@ class BoardView extends React.Component {
         }
     }
 
+    displayRenameForm(){
+        let formVisibility = document.getElementById('renameBoardSection').style.display;
+        if (formVisibility === 'none') {
+            document.getElementById('renameBoardSection').style.display = 'block';
+        } else if (formVisibility === 'block') {
+            document.getElementById('renameBoardSection').style.display = 'none';
+        } else {
+            document.getElementById('renameBoardSection').style.display = 'block';
+        }
+    }
 
+    renameBoard(){
+        let newName = document.getElementById('newBoardName').value;
+        this.saveChangedBoard(false, newName);
+    }
+
+    deleteBoard(event){
+        console.log(event.target);
+    }
 
     render() {
         return (
@@ -153,7 +181,8 @@ class BoardView extends React.Component {
                 <div id={"boardViewNavBar"}>
                     <ul id={"boardViewUl"}>
                         <li className={"boardViewLi"}>{this.state.name}</li>
-                        <li className={"boardViewLi"}>Menu</li>
+                        <li id={"renameBtn"} className={"boardViewLi"} onClick={this.displayRenameForm}>Rename</li>
+                        <li id={"deleteBtn"} className={"boardViewLi"} onClick={this.deleteBoard}>Delete</li>
                         <li id={"addIssueBtn"} className={"boardViewLi"} onClick={this.displayAddIssueForm}>Add</li>
                     </ul>
                 </div>
@@ -207,6 +236,14 @@ class BoardView extends React.Component {
                         }
                     </div>
                     <button onClick={this.addIssue}>Add Issue</button>
+                </div>
+
+                <div id={"renameBoardSection"} className={"renameBoardSection"}>
+                    <h2>Rename Kanban Board</h2>
+                    <label>New Board Name</label>
+                    <input type={'text'} name={"newBoardName"} id={"newBoardName"} placeholder={'New name...'}/>
+                    <button id={"renameBtn"} onClick={this.renameBoard}>Rename</button>
+                    <button id={"renameCancelBtn"} onClick={this.displayRenameForm}>Cancel</button>
                 </div>
 
             </div>
