@@ -121,11 +121,10 @@ body{
 
 .issue{
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     min-height: 50px;
-    border: 1px solid black;
     overflow-wrap: break-word;
-    padding: 5px;
+    background-color: #FFE458 !important;
 }
 
 #columnIssues{

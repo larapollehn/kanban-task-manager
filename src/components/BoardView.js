@@ -10,6 +10,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Badge from "react-bootstrap/Badge";
 
 /**
  *
@@ -239,14 +241,25 @@ class BoardView extends React.Component {
                         this.state.columns.map((column, i) =>
                             <Col key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                                 <h3 id={"columnName"}>{column['name']}</h3>
-                                <ul id={"columnIssues"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
+                                <ListGroup id={"columnIssues"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                                     {
                                         column['issues'].sort((a, b) => a['priority'] - b['priority'])
                                                         .map((issue, i) =>
-                                            <li key={i} id={i} className={'issue'} draggable={'true'} onDragStart={this.dragstartHandler}>{issue['title']} - {issue['priority']}</li>
+                                            <ListGroup.Item key={i} id={i} className={'issue'} draggable={'true'} onDragStart={this.dragstartHandler}>
+                                                {issue['priority'] === 0 ?
+                                                    <Badge variant="danger">Urgent</Badge> :
+                                                    issue['priority'] === 1 ?
+                                                    <Badge variant="warning">High</Badge> :
+                                                        issue['priority'] === 2 ?
+                                                            <Badge variant="info">Medium</Badge> :
+                                                            <Badge variant="success">Low</Badge>
+                                                }
+                                                <br/>
+                                                {issue['title']}
+                                            </ListGroup.Item>
                                         )
                                     }
-                                </ul>
+                                </ListGroup>
                             </Col>
                         )
                     }
@@ -307,6 +320,7 @@ class BoardView extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.state.columns);
         let radios = document.getElementsByName('radio');
         radios[3].checked = true;
     }
