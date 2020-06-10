@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import Issue from "../models/Issue";
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
+import Board from "../models/Board";
 
 /**
  *
@@ -169,10 +170,38 @@ class BoardView extends React.Component {
     renameBoard(){
         let newName = document.getElementById('newBoardName').value;
         this.saveChangedBoard(false, newName);
+        this.displayRenameForm();
     }
 
-    deleteBoard(event){
-        console.log(event.target);
+    displayDeleteForm(){
+        let formVisibility = document.getElementById('deleteBoardSection').style.display;
+        if (formVisibility === 'none') {
+            document.getElementById('deleteBoardSection').style.display = 'block';
+        } else if (formVisibility === 'block') {
+            document.getElementById('deleteBoardSection').style.display = 'none';
+        } else {
+            document.getElementById('deleteBoardSection').style.display = 'block';
+        }
+    }
+
+    deleteBoard(){
+        let boards = JSON.parse(localStorage.getItem('boards'));
+        if (this.state.id === 'board1') {
+            boards[0] = new Board('untitled', []);
+            localStorage.setItem('boards', JSON.stringify(boards));
+            this.props.setBoard1(this.state.board);
+        } else if (this.state.id === 'board2') {
+            boards[1] = new Board('untitled', []);
+            localStorage.setItem('boards', JSON.stringify(boards));
+            this.props.setBoard2(this.state.board);
+        } else if (this.state.id === 'board3') {
+            boards[2] = new Board('untitled', []);
+            localStorage.setItem('boards', JSON.stringify(boards));
+            this.props.setBoard3(this.state.board);
+        }
+        this.props.history.push({
+            pathname: '/',
+        })
     }
 
     render() {
@@ -182,7 +211,7 @@ class BoardView extends React.Component {
                     <ul id={"boardViewUl"}>
                         <li className={"boardViewLi"}>{this.state.name}</li>
                         <li id={"renameBtn"} className={"boardViewLi"} onClick={this.displayRenameForm}>Rename</li>
-                        <li id={"deleteBtn"} className={"boardViewLi"} onClick={this.deleteBoard}>Delete</li>
+                        <li id={"deleteBtn"} className={"boardViewLi"} onClick={this.displayDeleteForm}>Delete</li>
                         <li id={"addIssueBtn"} className={"boardViewLi"} onClick={this.displayAddIssueForm}>Add</li>
                     </ul>
                 </div>
@@ -244,6 +273,12 @@ class BoardView extends React.Component {
                     <input type={'text'} name={"newBoardName"} id={"newBoardName"} placeholder={'New name...'}/>
                     <button id={"renameBtn"} onClick={this.renameBoard}>Rename</button>
                     <button id={"renameCancelBtn"} onClick={this.displayRenameForm}>Cancel</button>
+                </div>
+
+                <div id={"deleteBoardSection"} className={"deleteBoardSection"}>
+                    <h2>Are you sure you want to delete the Board. All progress will be lost!</h2>
+                    <button id={"deleteBtn"} onClick={this.deleteBoard}>Delete</button>
+                    <button id={"renameCancelBtn"} onClick={this.displayDeleteForm}>Cancel</button>
                 </div>
 
             </div>

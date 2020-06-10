@@ -79,7 +79,7 @@ body{
 .columnsContainer{
     margin-top: 2%;
     min-height: 50%;
-    width: 80%;
+    width: 100%;
     text-align: center;
 }
 
@@ -123,5 +123,9 @@ body{
 }
 
 #renameBoardSection{
+    display: none;
+}
+
+#deleteBoardSection{
     display: none;
 }
