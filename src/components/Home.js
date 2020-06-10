@@ -100,7 +100,8 @@ class Home extends React.Component {
         const column5 = document.getElementById("column5").value;
         const column6 = document.getElementById("column6").value;
         const column7 = document.getElementById("column7").value;
-        let columns = [column1, column2, column3, column4, column5, column6, column7];
+        const column8 = document.getElementById("column8").value;
+        let columns = [column1, column2, column3, column4, column5, column6, column7, column8];
         columns = columns.filter(el => el !== '').map(column => new Column(column, []))
 
         let boards = JSON.parse(localStorage.getItem('boards'));
@@ -182,6 +183,10 @@ class Home extends React.Component {
                     <div>
                         <label>Column 7</label>
                         <input type={"text"} name={"column7"} id={"column7"} placeholder={"Column name..."}/>
+                    </div>
+                    <div>
+                        <label>Column 8</label>
+                        <input type={"text"} name={"column8"} id={"column8"} placeholder={"Column name..."}/>
                     </div>
                     <button onClick={this.createBoard}>Create Board</button>
                 </div>
