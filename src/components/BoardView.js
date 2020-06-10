@@ -37,7 +37,8 @@ class BoardView extends React.Component {
             priorities: [1, 2, 3, 4],
             board: state.board,
             dragIssue: [],
-            show: false
+            show: false,
+            show_delete: false
         }
         this.addIssue = this.addIssue.bind(this);
         this.displayAddIssueForm = this.displayAddIssueForm.bind(this);
@@ -51,6 +52,8 @@ class BoardView extends React.Component {
         this.deleteBoard = this.deleteBoard.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleShowDelete = this.handleShowDelete.bind(this);
+        this.handleCloseDelete = this.handleCloseDelete.bind(this);
     }
 
     /**
@@ -193,15 +196,16 @@ class BoardView extends React.Component {
         document.getElementById('newBoardName').value = '';
     }
 
-    displayDeleteForm() {
-        let formVisibility = document.getElementById('deleteBoardSection').style.display;
-        if (formVisibility === 'none') {
-            document.getElementById('deleteBoardSection').style.display = 'block';
-        } else if (formVisibility === 'block') {
-            document.getElementById('deleteBoardSection').style.display = 'none';
-        } else {
-            document.getElementById('deleteBoardSection').style.display = 'block';
-        }
+    handleShowDelete(){
+        this.setState({
+            show_delete: true
+        })
+    }
+
+    handleCloseDelete(){
+        this.setState({
+            show_delete: false
+        })
     }
 
     deleteBoard() {
@@ -237,7 +241,7 @@ class BoardView extends React.Component {
                             <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
                                 <NavDropdown.Item id={"renameBtn"}
                                                   onClick={this.handleShow}>Rename</NavDropdown.Item>
-                                <NavDropdown.Item id={"deleteBtn"} onClick={this.displayDeleteForm}>Delete
+                                <NavDropdown.Item id={"deleteBtn"} onClick={this.handleShowDelete}>Delete
                                     Board</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
@@ -337,11 +341,20 @@ class BoardView extends React.Component {
                     </Modal.Footer>
                 </Modal>
 
-                <div id={"deleteBoardSection"} className={"deleteBoardSection"}>
-                    <h2>Are you sure you want to delete the Board. All progress will be lost!</h2>
-                    <button id={"deleteBtn"} onClick={this.deleteBoard}>Delete</button>
-                    <button id={"renameCancelBtn"} onClick={this.displayDeleteForm}>Cancel</button>
-                </div>
+                <Modal show={this.state.show_delete} onHide={this.handleCloseDelete}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Delete Kanban Board</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure you want to delete the board?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="light" id={"renameBtn"} onClick={this.deleteBoard}>
+                            Delete
+                        </Button>
+                        <Button variant="danger" onClick={this.handleCloseDelete}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
             </div>
 
