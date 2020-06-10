@@ -14,6 +14,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 
 import trashCan from "../../public/images/bin.png";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 /**
  *
@@ -33,7 +36,8 @@ class BoardView extends React.Component {
             issues: state.board.columns.issues,
             priorities: [1, 2, 3, 4],
             board: state.board,
-            dragIssue: []
+            dragIssue: [],
+            show: false
         }
         this.addIssue = this.addIssue.bind(this);
         this.displayAddIssueForm = this.displayAddIssueForm.bind(this);
@@ -44,22 +48,23 @@ class BoardView extends React.Component {
         this.removeIssueFromColumn = this.removeIssueFromColumn.bind(this);
         this.saveChangedBoard = this.saveChangedBoard.bind(this);
         this.renameBoard = this.renameBoard.bind(this);
-        this.displayRenameForm = this.displayRenameForm.bind(this);
         this.deleteBoard = this.deleteBoard.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     /**
      *
      */
     displayAddIssueForm() {
-        let visibilityStatus = document.getElementById("createIssueContainer").style.display;
-        if (visibilityStatus === 'none') {
+        /**let visibilityStatus = document.getElementById("createIssueContainer").style.display;
+         if (visibilityStatus === 'none') {
             document.getElementById("createIssueContainer").style.display = 'block';
         } else if (visibilityStatus === 'block') {
             document.getElementById("createIssueContainer").style.display = 'none';
         } else {
             document.getElementById("createIssueContainer").style.display = 'block';
-        }
+        }**/
     }
 
     /**
@@ -168,21 +173,23 @@ class BoardView extends React.Component {
         }
     }
 
-    displayRenameForm() {
-        let formVisibility = document.getElementById('renameBoardSection').style.display;
-        if (formVisibility === 'none') {
-            document.getElementById('renameBoardSection').style.display = 'block';
-        } else if (formVisibility === 'block') {
-            document.getElementById('renameBoardSection').style.display = 'none';
-        } else {
-            document.getElementById('renameBoardSection').style.display = 'block';
-        }
+    handleShow() {
+        this.setState({
+            show: true
+        })
     }
+
+    handleClose() {
+        this.setState({
+            show: false
+        })
+    }
+
 
     renameBoard() {
         let newName = document.getElementById('newBoardName').value;
         this.saveChangedBoard(false, newName);
-        this.displayRenameForm();
+        this.handleClose();
         document.getElementById('newBoardName').value = '';
     }
 
@@ -226,10 +233,10 @@ class BoardView extends React.Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link id={"addIssueBtn"} onClick={this.displayAddIssueForm}>Add Issue</Nav.Link>
+                            <Nav.Link id={"addIssueBtn"} onClick={this.displayAddIssueForm()}>Add Issue</Nav.Link>
                             <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
                                 <NavDropdown.Item id={"renameBtn"}
-                                                  onClick={this.displayRenameForm}>Rename</NavDropdown.Item>
+                                                  onClick={this.handleShow}>Rename</NavDropdown.Item>
                                 <NavDropdown.Item id={"deleteBtn"} onClick={this.displayDeleteForm}>Delete
                                     Board</NavDropdown.Item>
                             </NavDropdown>
@@ -307,13 +314,28 @@ class BoardView extends React.Component {
                     <button onClick={this.addIssue}>Add Issue</button>
                 </div>
 
-                <div id={"renameBoardSection"} className={"renameBoardSection"}>
-                    <h2>Rename Kanban Board</h2>
-                    <label>New Board Name</label>
-                    <input type={'text'} name={"newBoardName"} id={"newBoardName"} placeholder={'New name...'}/>
-                    <button id={"renameBtn"} onClick={this.renameBoard}>Rename</button>
-                    <button id={"renameCancelBtn"} onClick={this.displayRenameForm}>Cancel</button>
-                </div>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Rename Kanban Board</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Row>
+                            <Form className={"createBoardForm"}>
+                                <Form.Label>New Board Name</Form.Label>
+                                <Form.Control name={"newBoardName"} id={"newBoardName"} type="text"
+                                              placeholder="New name..."/>
+                            </Form>
+                        </Form.Row>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="light" id={"renameBtn"} onClick={this.renameBoard}>
+                            Rename
+                        </Button>
+                        <Button variant="danger" onClick={this.handleClose}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 <div id={"deleteBoardSection"} className={"deleteBoardSection"}>
                     <h2>Are you sure you want to delete the Board. All progress will be lost!</h2>
@@ -327,7 +349,6 @@ class BoardView extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.columns);
         let radios = document.getElementsByName('radio');
         radios[3].checked = true;
     }
