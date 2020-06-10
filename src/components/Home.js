@@ -20,11 +20,22 @@ class Home extends React.Component {
          */
         this.state = {
             currentBoard: 0,
+            showModal: false
         }
         this.handleBoardClick = this.handleBoardClick.bind(this);
         this.redirectToBoard = this.redirectToBoard.bind(this);
         this.displayCreateForm = this.displayCreateForm.bind(this);
         this.createBoard = this.createBoard.bind(this);
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+    handleOpenModal() {
+        this.setState({showModal: true});
+    }
+
+    handleCloseModal() {
+        this.setState({showModal: false});
     }
 
     /**
@@ -33,21 +44,24 @@ class Home extends React.Component {
      */
     handleBoardClick(event) {
         let id = event;
-        if (id === 'board1'){
-            if (this.props.board1.name === 'untitled'){
-                this.displayCreateForm(id, true);
+        this.setState({
+            currentBoard: id
+        })
+        if (id === 'board1') {
+            if (this.props.board1.name === 'untitled') {
+                this.handleOpenModal();
             } else {
                 this.redirectToBoard(id);
             }
-        } else if (id === 'board2'){
-            if (this.props.board2.name === 'untitled'){
-                this.displayCreateForm(id, true);
+        } else if (id === 'board2') {
+            if (this.props.board2.name === 'untitled') {
+                this.handleOpenModal();
             } else {
                 this.redirectToBoard(id);
             }
-        } else if (id === 'board3'){
-            if (this.props.board3.name === 'untitled'){
-                this.displayCreateForm(id, true);
+        } else if (id === 'board3') {
+            if (this.props.board3.name === 'untitled') {
+                this.handleOpenModal();
             } else {
                 this.redirectToBoard(id);
             }
@@ -58,13 +72,13 @@ class Home extends React.Component {
      *
      * @param id
      */
-    redirectToBoard(id){
+    redirectToBoard(id) {
         let board;
-        if (id === 'board1'){
+        if (id === 'board1') {
             board = this.props.board1;
-        } else if (id === 'board2'){
+        } else if (id === 'board2') {
             board = this.props.board2;
-        } else if (id === 'board3'){
+        } else if (id === 'board3') {
             board = this.props.board3;
         }
         this.props.history.push({
@@ -81,10 +95,10 @@ class Home extends React.Component {
      * @param id
      * @param display
      */
-    displayCreateForm(id, display){
+    displayCreateForm(id, display) {
         let form = document.getElementById('createBoardContainer');
         console.assert(form !== null);
-        if(display){
+        if (display) {
             form.style.display = 'block';
         } else {
             form.style.display = 'none';
@@ -94,7 +108,7 @@ class Home extends React.Component {
         })
     }
 
-    createBoard(){
+    createBoard() {
         let id = this.state.currentBoard;
         const boardName = document.getElementById("boardName").value;
         /*
@@ -113,24 +127,25 @@ class Home extends React.Component {
 
         let boards = JSON.parse(localStorage.getItem('boards'));
 
-        if (id === "board1"){
+        if (id === "board1") {
             this.props.board1.name = boardName;
             this.props.board1.columns = columns;
             boards[0] = new Board(boardName, columns);
-        } else if (id === 'board2'){
+        } else if (id === 'board2') {
             this.props.board2.name = boardName;
             this.props.board2.columns = columns;
             boards[1] = new Board(boardName, columns);
-        } else if (id === 'board3'){
+        } else if (id === 'board3') {
             this.props.board3.name = boardName;
             this.props.board3.columns = columns;
             boards[2] = new Board(boardName, columns);
-        }else{
+        } else {
             throw new Error("Invalid id for board");
         }
         localStorage.setItem('boards', JSON.stringify(boards));
 
-        this.displayCreateForm();
+        //this.displayCreateForm();
+        this.handleCloseModal();
 
         this.redirectToBoard(id);
     }
@@ -146,29 +161,33 @@ class Home extends React.Component {
                 </div>
 
                 <div className="boardContainer">
-                <CardDeck>
-                    <Card className={"boardCards"} onClick={() => this.handleBoardClick('board1')}>
-                        <Card.Img variant="top" src={one}/>
-                        <Card.Body>
-                            <Card.Title><h2>{this.props.board1.name}</h2></Card.Title>
-                        </Card.Body>
-                    </Card>
-                    <Card className={"boardCards"} onClick={() => this.handleBoardClick('board2')}>
-                        <Card.Img variant="top" src={two} />
-                        <Card.Body>
-                            <Card.Title><h2>{this.props.board2.name}</h2></Card.Title>
-                        </Card.Body>
-                    </Card>
-                    <Card className={"boardCards"} onClick={() => this.handleBoardClick('board3')}>
-                        <Card.Img variant="top" src={three} />
-                        <Card.Body>
-                            <Card.Title><h3>{this.props.board3.name}</h3></Card.Title>
-                        </Card.Body>
-                    </Card>
-                </CardDeck>
+                    <CardDeck>
+                        <Card className={"boardCards"} onClick={() => this.handleBoardClick('board1')}>
+                            <Card.Img variant="top" src={one}/>
+                            <Card.Body>
+                                <Card.Title><h2>{this.props.board1.name}</h2></Card.Title>
+                            </Card.Body>
+                        </Card>
+                        <Card className={"boardCards"} onClick={() => this.handleBoardClick('board2')}>
+                            <Card.Img variant="top" src={two}/>
+                            <Card.Body>
+                                <Card.Title><h2>{this.props.board2.name}</h2></Card.Title>
+                            </Card.Body>
+                        </Card>
+                        <Card className={"boardCards"} onClick={() => this.handleBoardClick('board3')}>
+                            <Card.Img variant="top" src={three}/>
+                            <Card.Body>
+                                <Card.Title><h3>{this.props.board3.name}</h3></Card.Title>
+                            </Card.Body>
+                        </Card>
+                    </CardDeck>
                 </div>
 
-                <div id={"createBoardContainer"} className={"createBoardContainer"}>
+                <Modal
+                    isOpen={this.state.showModal}
+                    contentLabel="Minimal Modal Example"
+                    style={{content: {backgroundColor: '#DDCCBB'}}}
+                >
                     <h3>Create your Kanban Board</h3>
                     <div>
                         <label>Board Name</label>
@@ -206,8 +225,9 @@ class Home extends React.Component {
                         <label>Column 8</label>
                         <input type={"text"} name={"column8"} id={"column8"} placeholder={"Column name..."}/>
                     </div>
-                    <button onClick={this.createBoard}>Create Board</button>
-                </div>
+                    <button onClick={this.createBoard}>Create Board</button><button onClick={this.handleCloseModal}>Cancel</button>
+
+                </Modal>
             </div>
         )
     }

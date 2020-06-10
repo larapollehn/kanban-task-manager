@@ -32,7 +32,8 @@ body{
 
 
 .boardCards:hover{
-    background-color: rgb(242,242,242);
+    background-color: #DDCCBB;
+
 }
 
 .createBoardContainer{
