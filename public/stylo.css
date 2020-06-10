@@ -32,7 +32,7 @@ body{
 
 
 .boardCards:hover{
-    background-color: #DDCCBB;
+    background-color: #FF9158;
 
 }
 
@@ -96,11 +96,10 @@ body{
 }
 
 .kanbanColumn{
-    min-height: 500px;
-    max-height: 600px;
+    height: 700px;
     width: 22%;
     display: block;
-    border: 1px solid black;
+    border: 1px solid lightgrey;
     float: left;
     padding-bottom: 100px;
     overflow: auto;
@@ -109,7 +108,8 @@ body{
 #columnName{
     height: 30px;
     font-size: 25px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid lightgrey;
+    color: gray;
 }
 
 #createIssueContainer{
@@ -132,10 +132,16 @@ body{
 }
 
 #trashCan{
-    width: 200px;
-    height: 200px;
-    border: 1px solid black;
+    margin: 10px;
+    width: 100px;
+    height: 100px;
     display: inline-block;
+    float: right;
+}
+
+#trashCan:hover{
+    width: 120px;
+    height: 120px;
 }
 
 #renameBoardSection{
@@ -145,3 +151,4 @@ body{
 #deleteBoardSection{
     display: none;
 }
+

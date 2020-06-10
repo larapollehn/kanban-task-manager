@@ -13,6 +13,8 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 
+import trashCan from "../../public/images/bin.png";
+
 /**
  *
  */
@@ -85,13 +87,13 @@ class BoardView extends React.Component {
         document.getElementById("issueTitle").value = '';
     }
 
-    appendIssueToColumn(category, issueTitle, priority){
+    appendIssueToColumn(category, issueTitle, priority) {
         let stateColumns = this.state.columns;
         stateColumns[category]['issues'].push(new Issue(issueTitle, priority, category));
         this.saveChangedBoard(stateColumns);
     }
 
-    removeIssueFromColumn(){
+    removeIssueFromColumn() {
         let category = this.state.dragIssue[0];
         let index = this.state.dragIssue[1];
         let stateColumns = this.state.columns;
@@ -99,15 +101,15 @@ class BoardView extends React.Component {
         this.saveChangedBoard(stateColumns);
     }
 
-    saveChangedBoard(columns, name){
+    saveChangedBoard(columns, name) {
         let stateBoard = this.state.board;
-        if(columns !== false){
+        if (columns !== false) {
             stateBoard.columns = this.state.columns;
             this.setState({
                 columns: columns,
                 board: stateBoard
             })
-        } else if(name){
+        } else if (name) {
             let stateBoard = this.state.board;
             stateBoard.name = name;
             this.setState({
@@ -136,7 +138,7 @@ class BoardView extends React.Component {
         }
     }
 
-    dragstartHandler(event){
+    dragstartHandler(event) {
         let column = event.target.parentElement.parentElement.id;
         let issue = event.target.id;
         let theIssue = this.state.columns[column]['issues'][issue];
@@ -146,17 +148,17 @@ class BoardView extends React.Component {
 
     }
 
-    dragOverHandler(event){
+    dragOverHandler(event) {
         event.preventDefault();
     }
 
-    dropHandler(event){
+    dropHandler(event) {
         event.preventDefault();
-        if(event.target.id === 'trashCan'){
+        if (event.target.id === 'trashCan') {
             this.removeIssueFromColumn();
         } else {
             let category;
-            if (event.target.nodeName === 'DIV'){
+            if (event.target.nodeName === 'DIV') {
                 category = event.target;
             } else {
                 throw new Error('Place is not meant to be a drop area');
@@ -166,7 +168,7 @@ class BoardView extends React.Component {
         }
     }
 
-    displayRenameForm(){
+    displayRenameForm() {
         let formVisibility = document.getElementById('renameBoardSection').style.display;
         if (formVisibility === 'none') {
             document.getElementById('renameBoardSection').style.display = 'block';
@@ -177,14 +179,14 @@ class BoardView extends React.Component {
         }
     }
 
-    renameBoard(){
+    renameBoard() {
         let newName = document.getElementById('newBoardName').value;
         this.saveChangedBoard(false, newName);
         this.displayRenameForm();
         document.getElementById('newBoardName').value = '';
     }
 
-    displayDeleteForm(){
+    displayDeleteForm() {
         let formVisibility = document.getElementById('deleteBoardSection').style.display;
         if (formVisibility === 'none') {
             document.getElementById('deleteBoardSection').style.display = 'block';
@@ -195,7 +197,7 @@ class BoardView extends React.Component {
         }
     }
 
-    deleteBoard(){
+    deleteBoard() {
         let boards = JSON.parse(localStorage.getItem('boards'));
         if (this.state.id === 'board1') {
             boards[0] = new Board('untitled', []);
@@ -219,15 +221,17 @@ class BoardView extends React.Component {
         return (
             <div className={"boardViewContainer"}>
                 <Navbar bg="light" expand="lg">
-                    <Navbar.Brand >{this.state.name}</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Brand>{this.state.name}</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link id={"addIssueBtn"} onClick={this.displayAddIssueForm}>Add Issue</Nav.Link>
                             <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
-                                <NavDropdown.Item id={"renameBtn"} onClick={this.displayRenameForm}>Rename</NavDropdown.Item>
-                                <NavDropdown.Item id={"deleteBtn"}  onClick={this.displayDeleteForm}>Delete Board</NavDropdown.Item>
+                                <NavDropdown.Item id={"renameBtn"}
+                                                  onClick={this.displayRenameForm}>Rename</NavDropdown.Item>
+                                <NavDropdown.Item id={"deleteBtn"} onClick={this.displayDeleteForm}>Delete
+                                    Board</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
 
@@ -237,39 +241,42 @@ class BoardView extends React.Component {
 
                 <Container fluid={true}>
                     <Row>
-                    {
-                        this.state.columns.map((column, i) =>
-                            <Col key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
-                                <h3 id={"columnName"}>{column['name']}</h3>
-                                <ListGroup id={"columnIssues"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
-                                    {
-                                        column['issues'].sort((a, b) => a['priority'] - b['priority'])
-                                                        .map((issue, i) =>
-                                            <ListGroup.Item key={i} id={i} className={'issue'} draggable={'true'} onDragStart={this.dragstartHandler}>
-                                                {issue['priority'] === 0 ?
-                                                    <Badge variant="danger">Urgent</Badge> :
-                                                    issue['priority'] === 1 ?
-                                                    <Badge variant="warning">High</Badge> :
-                                                        issue['priority'] === 2 ?
-                                                            <Badge variant="info">Medium</Badge> :
-                                                            <Badge variant="success">Low</Badge>
-                                                }
-                                                <br/>
-                                                {issue['title']}
-                                            </ListGroup.Item>
-                                        )
-                                    }
-                                </ListGroup>
-                            </Col>
-                        )
-                    }
+                        {
+                            this.state.columns.map((column, i) =>
+                                <Col key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler}
+                                     onDragOver={this.dragOverHandler}>
+                                    <h3 id={"columnName"}>{column['name']}</h3>
+                                    <ListGroup id={"columnIssues"} onDrop={this.dropHandler}
+                                               onDragOver={this.dragOverHandler}>
+                                        {
+                                            column['issues'].sort((a, b) => a['priority'] - b['priority'])
+                                                .map((issue, i) =>
+                                                    <ListGroup.Item key={i} id={i} className={'issue'}
+                                                                    draggable={'true'}
+                                                                    onDragStart={this.dragstartHandler}>
+                                                        {issue['priority'] === 0 ?
+                                                            <Badge variant="danger">Urgent</Badge> :
+                                                            issue['priority'] === 1 ?
+                                                                <Badge variant="warning">High</Badge> :
+                                                                issue['priority'] === 2 ?
+                                                                    <Badge variant="info">Medium</Badge> :
+                                                                    <Badge variant="success">Low</Badge>
+                                                        }
+                                                        <br/>
+                                                        {issue['title']}
+                                                    </ListGroup.Item>
+                                                )
+                                        }
+                                    </ListGroup>
+                                </Col>
+                            )
+                        }
                     </Row>
                 </Container>
 
-                <div id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
-                    <h2>Trash</h2>
-                </div>
+                <img src={trashCan} id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
 
+                </img>
 
 
                 <div id={"createIssueContainer"} className={"createIssueContainer"}>

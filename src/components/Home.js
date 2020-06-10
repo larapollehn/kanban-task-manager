@@ -189,7 +189,7 @@ class Home extends React.Component {
                 <Modal
                     isOpen={this.state.showModal}
                     contentLabel="Minimal Modal Example"
-                    style={{content: {backgroundColor: '#DDCCBB'}}}
+                    style={{content: {backgroundColor: '#FF9158'}}}
                 >
                     <Form className={"createBoardForm"}>
                         <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
