@@ -73,6 +73,9 @@ class BoardView extends React.Component {
         this.appendIssueToColumn(category, issueTitle, priority);
 
         this.displayAddIssueForm();
+
+        document.getElementById("issueTitle").value = '';
+        document.getElementById("category").value = '';
     }
 
     appendIssueToColumn(category, issueTitle, priority){
@@ -171,6 +174,7 @@ class BoardView extends React.Component {
         let newName = document.getElementById('newBoardName').value;
         this.saveChangedBoard(false, newName);
         this.displayRenameForm();
+        document.getElementById('newBoardName').value = '';
     }
 
     displayDeleteForm(){
@@ -286,6 +290,10 @@ class BoardView extends React.Component {
         )
     }
 
+    componentDidMount() {
+        let radios = document.getElementsByName('radio');
+        radios[3].checked = true;
+    }
 }
 
 const mapStateToProps = state => ({
