@@ -7,6 +7,9 @@ import Board from "../models/Board";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 /**
  *
@@ -215,7 +218,7 @@ class BoardView extends React.Component {
         return (
             <div className={"boardViewContainer"}>
                 <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">{this.state.name}</Navbar.Brand>
+                    <Navbar.Brand >{this.state.name}</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
@@ -231,10 +234,11 @@ class BoardView extends React.Component {
                 </Navbar>
 
 
-                <div className={"columnsContainer"}>
+                <Container fluid={true}>
+                    <Row>
                     {
                         this.state.columns.map((column, i) =>
-                            <div key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
+                            <Col key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                                 <h3 id={"columnName"}>{column['name']}</h3>
                                 <ul id={"columnIssues"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                                     {
@@ -244,10 +248,12 @@ class BoardView extends React.Component {
                                         )
                                     }
                                 </ul>
-                            </div>
+                            </Col>
                         )
                     }
-                </div>
+                    </Row>
+                </Container>
+
                 <div id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
                     <h2>Trash</h2>
                 </div>

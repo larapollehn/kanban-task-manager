@@ -11,6 +11,9 @@ import Modal from 'react-modal';
 import one from "../../public/images/one.jpeg";
 import two from "../../public/images/two.jpeg";
 import three from "../../public/images/three.jpeg";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
 
 class Home extends React.Component {
     constructor(props) {
@@ -188,45 +191,72 @@ class Home extends React.Component {
                     contentLabel="Minimal Modal Example"
                     style={{content: {backgroundColor: '#DDCCBB'}}}
                 >
-                    <h3>Create your Kanban Board</h3>
-                    <div>
-                        <label>Board Name</label>
-                        <input type={"text"} name={"boardName"} id={"boardName"} placeholder={"Board name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 1</label>
-                        <input type={"text"} name={"column1"} id={"column1"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 2</label>
-                        <input type={"text"} name={"column2"} id={"column2"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 3</label>
-                        <input type={"text"} name={"column3"} id={"column3"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 4</label>
-                        <input type={"text"} name={"column4"} id={"column4"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 5</label>
-                        <input type={"text"} name={"column5"} id={"column5"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 6</label>
-                        <input type={"text"} name={"column6"} id={"column6"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 7</label>
-                        <input type={"text"} name={"column7"} id={"column7"} placeholder={"Column name..."}/>
-                    </div>
-                    <div>
-                        <label>Column 8</label>
-                        <input type={"text"} name={"column8"} id={"column8"} placeholder={"Column name..."}/>
-                    </div>
-                    <button onClick={this.createBoard}>Create Board</button><button onClick={this.handleCloseModal}>Cancel</button>
+                    <Form className={"createBoardForm"}>
+                        <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
+                        <br/>
+                        <Form.Group controlId="formGridAddress1">
+                            <Form.Label>Board Name</Form.Label>
+                            <Form.Control id={"boardName"} placeholder="Board name..." />
+                        </Form.Group>
 
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="column1">
+                                <Form.Label>Column 1</Form.Label>
+                                <Form.Control id={"column1"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="column2">
+                                <Form.Label>Column 2</Form.Label>
+                                <Form.Control id={"column2"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="column3">
+                                <Form.Label>Column 3</Form.Label>
+                                <Form.Control id={"column3"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="column4">
+                                <Form.Label>Column 4</Form.Label>
+                                <Form.Control id={"column4"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="column5">
+                                <Form.Label>Column 5</Form.Label>
+                                <Form.Control id={"column5"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="column6">
+                                <Form.Label>Column 6</Form.Label>
+                                <Form.Control id={"column6"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="column7">
+                                <Form.Label>Column 7</Form.Label>
+                                <Form.Control id={"column7"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="column8">
+                                <Form.Label>Column 8</Form.Label>
+                                <Form.Control id={"column8"} type="text" placeholder="Column name..." />
+                            </Form.Group>
+                        </Form.Row>
+
+
+
+                        <Button variant="light" onClick={this.createBoard}>
+                            Create Board
+                        </Button>{' '}
+
+                        <Button variant="danger" onClick={this.handleCloseModal}>
+                            Cancel
+                        </Button>
+                    </Form>
                 </Modal>
             </div>
         )

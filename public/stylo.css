@@ -36,12 +36,12 @@ body{
 
 }
 
-.createBoardContainer{
-    border: 1px solid black;
-    margin-top: 80px;
-    display: none;
-    text-align: center;
+.createBoardForm{
+    width: 60%;
+    margin: 0 auto;
 }
+
+
 
 .boardViewContainer{
     height: 100vh;
