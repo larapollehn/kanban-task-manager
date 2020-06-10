@@ -5,23 +5,29 @@ body{
 
 .homeTitles{
     text-align: center;
-    line-height: 0.6;
+    line-height: 0.8;
     padding-top: 50px;
 }
 
-.boardContainer{
-    padding-top: 170px;
-    text-align: center;
+#upSubTitle{
+    font-size: 25px;
 }
 
-.board{
-    display: inline-block;
-    width: 300px;
-    height:150px;
-    border: 1px solid black;
-    border-radius: 8px;
-    margin: 0 50px;
+#title{
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#subTitle{
+    font-size: 20px;
+}
+
+.boardContainer{
+    padding-top: 110px;
     text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    cursor: pointer;
 }
 
 .createBoardContainer{

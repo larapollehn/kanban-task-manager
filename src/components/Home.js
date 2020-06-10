@@ -4,6 +4,12 @@ import {withRouter} from 'react-router-dom';
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 import Board from "../models/Board";
 import Column from "../models/Column";
+import CardDeck from "react-bootstrap/CardDeck";
+import Card from "react-bootstrap/Card";
+
+import one from "../../public/images/one.jpeg";
+import two from "../../public/images/two.jpeg";
+import three from "../../public/images/three.jpeg";
 
 class Home extends React.Component {
     constructor(props) {
@@ -25,7 +31,7 @@ class Home extends React.Component {
      * @param event
      */
     handleBoardClick(event) {
-        let id = event.target.id;
+        let id = event;
         if (id === 'board1'){
             if (this.props.board1.name === 'untitled'){
                 this.displayCreateForm(id, true);
@@ -133,22 +139,34 @@ class Home extends React.Component {
         return (
             <div id="homeContainer">
                 <div className="homeTitles">
-                    <h3>Let's Go</h3>
-                    <h1>Kanban Online</h1>
-                    <h5>Up Your Productivity</h5>
+                    <p id={"upSubTitle"}>Get Organized</p>
+                    <p id={"title"}>Kanban Online</p>
+                    <p id={"subTitle"}>Up Your Productivity</p>
                 </div>
 
                 <div className="boardContainer">
-                    <div id={"board1"} className={"board board1"} onClick={this.handleBoardClick}>
-                        <h3>{this.props.board1.name}</h3>
-                    </div>
-                    <div id={"board2"} className={"board board2"} onClick={this.handleBoardClick}>
-                        <h3>{this.props.board2.name}</h3>
-                    </div>
-                    <div id={"board3"} className={"board board3"} onClick={this.handleBoardClick}>
-                        <h3>{this.props.board3.name}</h3>
-                    </div>
+                <CardDeck >
+                    <Card onClick={() => this.handleBoardClick('board1')}>
+                        <Card.Img variant="top" src={one} />
+                        <Card.Body>
+                            <Card.Title><h2>{this.props.board1.name}</h2></Card.Title>
+                        </Card.Body>
+                    </Card>
+                    <Card  onClick={() => this.handleBoardClick('board2')}>
+                        <Card.Img variant="top" src={two} />
+                        <Card.Body>
+                            <Card.Title><h2>{this.props.board2.name}</h2></Card.Title>
+                        </Card.Body>
+                    </Card>
+                    <Card  onClick={() => this.handleBoardClick('board3')}>
+                        <Card.Img variant="top" src={three} />
+                        <Card.Body>
+                            <Card.Title><h3>{this.props.board3.name}</h3></Card.Title>
+                        </Card.Body>
+                    </Card>
+                </CardDeck>
                 </div>
+
 
                 <div id={"createBoardContainer"} className={"createBoardContainer"}>
                     <h3>Create your Kanban Board</h3>

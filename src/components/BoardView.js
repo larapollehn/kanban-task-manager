@@ -4,6 +4,9 @@ import {connect} from "react-redux";
 import Issue from "../models/Issue";
 import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
 import Board from "../models/Board";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 /**
  *
@@ -211,14 +214,22 @@ class BoardView extends React.Component {
     render() {
         return (
             <div className={"boardViewContainer"}>
-                <div id={"boardViewNavBar"}>
-                    <ul id={"boardViewUl"}>
-                        <li className={"boardViewLi"}>{this.state.name}</li>
-                        <li id={"renameBtn"} className={"boardViewLi"} onClick={this.displayRenameForm}>Rename</li>
-                        <li id={"deleteBtn"} className={"boardViewLi"} onClick={this.displayDeleteForm}>Delete</li>
-                        <li id={"addIssueBtn"} className={"boardViewLi"} onClick={this.displayAddIssueForm}>Add</li>
-                    </ul>
-                </div>
+                <Navbar bg="light" expand="lg">
+                    <Navbar.Brand href="#home">{this.state.name}</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ml-auto">
+                            <Nav.Link href="/">Home</Nav.Link>
+                            <Nav.Link id={"addIssueBtn"} onClick={this.displayAddIssueForm}>Add Issue</Nav.Link>
+                            <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
+                                <NavDropdown.Item id={"renameBtn"} onClick={this.displayRenameForm}>Rename</NavDropdown.Item>
+                                <NavDropdown.Item id={"deleteBtn"}  onClick={this.displayDeleteForm}>Delete Board</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+
+                    </Navbar.Collapse>
+                </Navbar>
+
 
                 <div className={"columnsContainer"}>
                     {

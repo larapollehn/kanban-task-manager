@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 
 import '../public/stylo.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './stores/store';
 import Home from "./components/Home";
 import BoardView from "./components/BoardView";
