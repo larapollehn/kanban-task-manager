@@ -6,6 +6,7 @@ import Board from "../models/Board";
 import Column from "../models/Column";
 import CardDeck from "react-bootstrap/CardDeck";
 import Card from "react-bootstrap/Card";
+import Modal from 'react-modal';
 
 import one from "../../public/images/one.jpeg";
 import two from "../../public/images/two.jpeg";
@@ -145,20 +146,20 @@ class Home extends React.Component {
                 </div>
 
                 <div className="boardContainer">
-                <CardDeck >
-                    <Card onClick={() => this.handleBoardClick('board1')}>
-                        <Card.Img variant="top" src={one} />
+                <CardDeck>
+                    <Card className={"boardCards"} onClick={() => this.handleBoardClick('board1')}>
+                        <Card.Img variant="top" src={one}/>
                         <Card.Body>
                             <Card.Title><h2>{this.props.board1.name}</h2></Card.Title>
                         </Card.Body>
                     </Card>
-                    <Card  onClick={() => this.handleBoardClick('board2')}>
+                    <Card className={"boardCards"} onClick={() => this.handleBoardClick('board2')}>
                         <Card.Img variant="top" src={two} />
                         <Card.Body>
                             <Card.Title><h2>{this.props.board2.name}</h2></Card.Title>
                         </Card.Body>
                     </Card>
-                    <Card  onClick={() => this.handleBoardClick('board3')}>
+                    <Card className={"boardCards"} onClick={() => this.handleBoardClick('board3')}>
                         <Card.Img variant="top" src={three} />
                         <Card.Body>
                             <Card.Title><h3>{this.props.board3.name}</h3></Card.Title>
@@ -166,7 +167,6 @@ class Home extends React.Component {
                     </Card>
                 </CardDeck>
                 </div>
-
 
                 <div id={"createBoardContainer"} className={"createBoardContainer"}>
                     <h3>Create your Kanban Board</h3>

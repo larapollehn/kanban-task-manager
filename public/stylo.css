@@ -30,6 +30,11 @@ body{
     cursor: pointer;
 }
 
+
+.boardCards:hover{
+    background-color: rgb(242,242,242);
+}
+
 .createBoardContainer{
     border: 1px solid black;
     margin-top: 80px;
