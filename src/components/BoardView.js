@@ -131,16 +131,18 @@ class BoardView extends React.Component {
 
     dropHandler(event){
         event.preventDefault();
-        console.log(this.state.dragIssue);
-        let category;
-        if (event.target.nodeName === 'DIV'){
-            category = event.target;
+        if(event.target.id === 'trashCan'){
+            this.removeIssueFromColumn();
         } else {
-            throw new Error('Place is not meant to be a drop area');
+            let category;
+            if (event.target.nodeName === 'DIV'){
+                category = event.target;
+            } else {
+                throw new Error('Place is not meant to be a drop area');
+            }
+            this.appendIssueToColumn(category.id, this.state.dragIssue[2].title, this.state.dragIssue[2].priority);
+            this.removeIssueFromColumn();
         }
-        console.log(category.id);
-        this.appendIssueToColumn(category.id, this.state.dragIssue[2].title, this.state.dragIssue[2].priority);
-        this.removeIssueFromColumn();
     }
 
 
@@ -173,6 +175,10 @@ class BoardView extends React.Component {
                         )
                     }
                 </div>
+                <div id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
+                    <h2>Trash</h2>
+                </div>
+
 
 
                 <div id={"createIssueContainer"} className={"createIssueContainer"}>

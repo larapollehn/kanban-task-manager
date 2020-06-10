@@ -71,7 +71,7 @@ body{
 .columnsContainer{
     margin-top: 2%;
     min-height: 50%;
-    width: 100%;
+    width: 80%;
     text-align: center;
 }
 
@@ -105,4 +105,11 @@ body{
 
 #columnIssues{
     list-style-type: none;
+}
+
+#trashCan{
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    display: inline-block;
 }
