@@ -300,9 +300,9 @@ class BoardView extends React.Component {
                                 <Form.Control placeholder="Issue title..."/>
                             </Form.Group>
 
-                            <Form.Group controlId="issueCategorySection">
+                            <Form.Group controlId="category">
                                 <Form.Label>Category</Form.Label>
-                                <Form.Control as="select" id={"category"}>
+                                <Form.Control as="select">
                                     {
                                         this.state.columns.map((column, i) =>
                                             <option key={i} value={i}>{column['name']}</option>
@@ -356,18 +356,16 @@ class BoardView extends React.Component {
                         <Modal.Title>Rename Kanban Board</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form.Row>
-                            <Form className={"createBoardForm"}>
+                        <Form className={"renameBoardForm"}>
                             <Form.Group controlId={"newBoardName"}>
                                 <Form.Label>New Board Name</Form.Label>
                                 <Form.Control name={"newBoardName"} type="text"
                                               placeholder="New name..."/>
                             </Form.Group>
-                            </Form>
-                        </Form.Row>
+                        </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" controlId={"renameBtn"} onClick={this.renameBoard}>
+                        <Button variant="light" id={"renameBtn"} onClick={this.renameBoard}>
                             Rename
                         </Button>
                         <Button variant="danger" onClick={this.handleClose}>
