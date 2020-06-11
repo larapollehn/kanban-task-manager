@@ -19,6 +19,7 @@ import trashCan from "../../public/images/bin.png";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 /**
  *
@@ -64,26 +65,26 @@ class BoardView extends React.Component {
         this.renameColumns = this.renameColumns.bind(this);
     }
 
-    handleShowColumn(){
+    handleShowColumn() {
         this.setState({
             show_column: true
         })
     }
 
-    handleCloseColumn(){
+    handleCloseColumn() {
         this.setState({
             show_column: false
         })
     }
 
-    renameColumns(){
+    renameColumns() {
         let newColumnNames = [];
-        for (let i = 0; i < this.state.columns.length; i++){
+        for (let i = 0; i < this.state.columns.length; i++) {
             let column = document.getElementById(`columnRename${i}`).value;
             newColumnNames.push(column);
         }
         let columns = this.state.columns;
-        for (let j = 0; j < newColumnNames.length; j++){
+        for (let j = 0; j < newColumnNames.length; j++) {
             columns[j]['name'] = newColumnNames[j];
         }
         this.saveChangedBoard(false, false, columns);
@@ -121,10 +122,10 @@ class BoardView extends React.Component {
         console.assert(priority !== null, "Priority must not be null");
         console.assert(typeof priority === "number", "Priority should be a number");
 
-        if (issueTitle === '' || priority === undefined){
+        if (issueTitle === '' || priority === undefined) {
             toast.error("❕ Please fill out all fields.");
 
-        }else {
+        } else {
             this.appendIssueToColumn(category, issueTitle, priority);
 
             this.handleCloseAdd();
@@ -162,7 +163,7 @@ class BoardView extends React.Component {
                 board: stateBoard,
                 name: name
             })
-        } else if (newColumns !== false){
+        } else if (newColumns !== false) {
             stateBoard.columns = newColumns;
             this.setState({
                 board: stateBoard,
@@ -237,9 +238,9 @@ class BoardView extends React.Component {
 
     renameBoard() {
         let newName = document.getElementById('newBoardName').value;
-        if(newName === ''){
+        if (newName === '') {
             toast.error('❕ Choose a new name or cancel.')
-        } else{
+        } else {
             this.saveChangedBoard(false, newName, false);
             this.handleClose();
             document.getElementById('newBoardName').value = '';
@@ -282,19 +283,21 @@ class BoardView extends React.Component {
     render() {
         return (
             <div className={"boardViewContainer"}>
-                <Navbar bg="light" expand="lg">
-                    <Navbar.Brand>{this.state.name}</Navbar.Brand>
+                <Navbar  expand="lg">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="/">Kanban Online</Breadcrumb.Item>
+                        <Breadcrumb.Item active>{this.state.name}</Breadcrumb.Item>
+                    </Breadcrumb>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
-                            <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link id={"addIssueBtn"} onClick={this.handleShowAdd}>Add Issue</Nav.Link>
                             <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
-                                <NavDropdown.Item id={"renameBtn"}
+                                <NavDropdown.Item className={"dropDownMenu"} id={"renameBtn"}
                                                   onClick={this.handleShow}>Rename Board</NavDropdown.Item>
-                                <NavDropdown.Item id={"renameColumnBtn"}
+                                <NavDropdown.Item className={"dropDownMenu"} id={"renameColumnBtn"}
                                                   onClick={this.handleShowColumn}>Rename Columns</NavDropdown.Item>
-                                <NavDropdown.Item id={"deleteBtn"} onClick={this.handleShowDelete}>Delete
+                                <NavDropdown.Item className={"dropDownMenu"} id={"deleteBtn"} onClick={this.handleShowDelete}>Delete
                                     Board</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
@@ -302,41 +305,42 @@ class BoardView extends React.Component {
                     </Navbar.Collapse>
                 </Navbar>
 
-
-                <Container fluid={true}>
-                    <Row>
-                        {
-                            this.state.columns.map((column, i) =>
-                                <Col key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler}
-                                     onDragOver={this.dragOverHandler}>
-                                    <h3 id={"columnName"}>{column['name']}</h3>
-                                    <ListGroup id={"columnIssues"} onDrop={this.dropHandler}
-                                               onDragOver={this.dragOverHandler}>
-                                        {
-                                            column['issues'].sort((a, b) => a['priority'] - b['priority'])
-                                                .map((issue, i) =>
-                                                    <ListGroup.Item key={i} id={i} className={'issue'}
-                                                                    draggable={'true'}
-                                                                    onDragStart={this.dragstartHandler}>
-                                                        {issue['priority'] === 0 ?
-                                                            <Badge variant="danger">Urgent</Badge> :
-                                                            issue['priority'] === 1 ?
-                                                                <Badge variant="warning">High</Badge> :
-                                                                issue['priority'] === 2 ?
-                                                                    <Badge variant="info">Medium</Badge> :
-                                                                    <Badge variant="success">Low</Badge>
-                                                        }
-                                                        <br/>
-                                                        {issue['title']}
-                                                    </ListGroup.Item>
-                                                )
-                                        }
-                                    </ListGroup>
-                                </Col>
-                            )
-                        }
-                    </Row>
-                </Container>
+                <div className={"mainBoard"}>
+                    <Container fluid={true}>
+                        <Row>
+                            {
+                                this.state.columns.map((column, i) =>
+                                    <Col key={i} id={i} className={"kanbanColumn"} onDrop={this.dropHandler}
+                                         onDragOver={this.dragOverHandler}>
+                                        <h3 id={"columnName"}>{column['name']}</h3>
+                                        <ListGroup id={"columnIssues"} onDrop={this.dropHandler}
+                                                   onDragOver={this.dragOverHandler}>
+                                            {
+                                                column['issues'].sort((a, b) => a['priority'] - b['priority'])
+                                                    .map((issue, i) =>
+                                                        <ListGroup.Item key={i} id={i} className={'issue'}
+                                                                        draggable={'true'}
+                                                                        onDragStart={this.dragstartHandler}>
+                                                            {issue['priority'] === 0 ?
+                                                                <Badge variant="danger">Urgent</Badge> :
+                                                                issue['priority'] === 1 ?
+                                                                    <Badge variant="warning">High</Badge> :
+                                                                    issue['priority'] === 2 ?
+                                                                        <Badge variant="info">Medium</Badge> :
+                                                                        <Badge variant="success">Low</Badge>
+                                                            }
+                                                            <br/>
+                                                            {issue['title']}
+                                                        </ListGroup.Item>
+                                                    )
+                                            }
+                                        </ListGroup>
+                                    </Col>
+                                )
+                            }
+                        </Row>
+                    </Container>
+                </div>
 
                 <img src={trashCan} id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}
                      alt={"trashCan"}/>
@@ -394,14 +398,14 @@ class BoardView extends React.Component {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" id={"renameBtn"} onClick={this.addIssue}>
+                        <Button variant="success" id={"renameBtn"} onClick={this.addIssue}>
                             Add
                         </Button>
                         <Button variant="danger" onClick={this.handleCloseAdd}>
                             Cancel
                         </Button>
                     </Modal.Footer>
-                    <ToastContainer />
+                    <ToastContainer/>
                 </Modal>
 
 
@@ -419,14 +423,14 @@ class BoardView extends React.Component {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" id={"renameBtn"} onClick={this.renameBoard}>
+                        <Button variant="success" id={"renameBtn"} onClick={this.renameBoard}>
                             Rename
                         </Button>
                         <Button variant="danger" onClick={this.handleClose}>
                             Cancel
                         </Button>
                     </Modal.Footer>
-                    <ToastContainer />
+                    <ToastContainer/>
                 </Modal>
 
                 <Modal show={this.state.show_delete} onHide={this.handleCloseDelete}>
@@ -435,7 +439,7 @@ class BoardView extends React.Component {
                     </Modal.Header>
                     <Modal.Body>Are you sure you want to delete the board?</Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" id={"deleteBtn"} onClick={this.deleteBoard}>
+                        <Button variant="success" id={"deleteBtn"} onClick={this.deleteBoard}>
                             Delete
                         </Button>
                         <Button variant="danger" onClick={this.handleCloseDelete}>
@@ -455,14 +459,14 @@ class BoardView extends React.Component {
                                     <Form.Group key={i} controlId={`columnRename${i}`}>
                                         <Form.Label>Column: {column['name']}</Form.Label>
                                         <Form.Control name={"newColumnsName"} type="text"
-                                                       defaultValue={column['name']}/>
+                                                      defaultValue={column['name']}/>
                                     </Form.Group>
                                 )
                             }
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" id={"renameColumnsBtn"} onClick={this.renameColumns}>
+                        <Button variant="success" id={"renameColumnsBtn"} onClick={this.renameColumns}>
                             Rename
                         </Button>
                         <Button variant="danger" onClick={this.handleCloseColumn}>
@@ -474,6 +478,25 @@ class BoardView extends React.Component {
             </div>
 
         )
+    }
+
+    componentDidMount() {
+        let boards = JSON.parse(localStorage.getItem('boards'));
+        let board;
+        if (this.state.id === 'board1') {
+            board = boards[0];
+        } else if (this.state.id === 'board2') {
+            board = boards[1];
+        } else if (this.state.id === 'board3') {
+            board = boards[2];
+        }
+        this.setState({
+            name: board.name,
+            columns: board.columns,
+            issues: board.columns.issues,
+            priorities: [1, 2, 3, 4],
+            board: board,
+        })
     }
 
 

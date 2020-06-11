@@ -9,9 +9,7 @@ body{
     padding-top: 50px;
 }
 
-#upSubTitle{
-    font-size: 25px;
-}
+
 
 #title{
     font-size: 50px;
@@ -23,24 +21,26 @@ body{
 }
 
 .boardContainer{
-    padding-top: 110px;
+    padding-top: 100px;
     text-align: center;
     width: 80%;
     margin: 0 auto;
     cursor: pointer;
 }
 
+.boardCards{
+    border: 1px solid lightgray !important;
+}
 
 .boardCards:hover{
-    background-color: #FFE458;
-
+    background-color: #1C2B5D;
+    color: white;
 }
 
 .createBoardForm{
     width: 60%;
     margin: 0 auto;
 }
-
 
 
 .boardViewContainer{
@@ -96,13 +96,22 @@ body{
 }
 
 .kanbanColumn{
-    height: 700px;
-    width: 22%;
+    height: 650px;
     display: block;
     border: 1px solid lightgrey;
     float: left;
     padding-bottom: 100px;
     overflow: auto;
+}
+
+.kanbanColumn:first-child{
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.kanbanColumn:last-child{
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 #columnName{
@@ -128,6 +137,7 @@ body{
     min-height: 50px;
     overflow-wrap: break-word;
     background-color: #FFE458 !important;
+    border-radius: 8px !important;
 }
 
 #columnIssues{
@@ -135,7 +145,8 @@ body{
 }
 
 #trashCan{
-    margin: 10px;
+    margin-top: 30px;
+    margin-right: 20px;
     width: 100px;
     height: 100px;
     display: inline-block;
@@ -155,3 +166,43 @@ body{
     display: none;
 }
 
+.breadcrumb{
+    background-color: transparent !important;
+    margin-bottom: 0 !important;
+}
+
+.mainBoard{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+a{
+    color: white !important;
+    font-weight: bold !important;
+}
+
+.navbar{
+    background-color: #1C2B5D !important;
+}
+
+.nav-link{
+    color: white !important;
+}
+
+.breadcrumb-item{
+    color: white !important;
+}
+
+.modal-header {
+    background-color: #1C2B5D !important;
+    color: white !important;
+}
+
+.close {
+    color: white !important;
+}
+
+.dropDownMenu{
+    color: grey !important;
+}

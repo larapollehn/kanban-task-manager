@@ -167,7 +167,6 @@ class Home extends React.Component {
         return (
             <div id="homeContainer">
                 <div className="homeTitles">
-                    <p id={"upSubTitle"}>Get Organized</p>
                     <p id={"title"}>Kanban Online</p>
                     <p id={"subTitle"}>Up Your Productivity</p>
                 </div>
@@ -198,7 +197,7 @@ class Home extends React.Component {
                 <Modal
                     isOpen={this.state.showModal}
                     contentLabel="Minimal Modal Example"
-                    style={{content: {backgroundColor: '#f0d64f'}}}
+                    style={{content: {backgroundColor: '#1C2B5D', color: "white", padding: "120px"}}}
                 >
                     <Form className={"createBoardForm"} controlid={"createBoardForm"}>
                         <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
@@ -257,7 +256,7 @@ class Home extends React.Component {
 
 
 
-                        <Button variant="light" onClick={this.createBoard}>
+                        <Button variant="success" onClick={this.createBoard}>
                             Create Board
                         </Button>{' '}
 
