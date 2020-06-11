@@ -42,6 +42,7 @@ class BoardView extends React.Component {
             show: false,
             show_delete: false,
             show_add: false,
+            show_column: false
         }
         this.addIssue = this.addIssue.bind(this);
         this.dragstartHandler = this.dragstartHandler.bind(this);
@@ -58,6 +59,25 @@ class BoardView extends React.Component {
         this.handleCloseDelete = this.handleCloseDelete.bind(this);
         this.handleShowAdd = this.handleShowAdd.bind(this);
         this.handleCloseAdd = this.handleCloseAdd.bind(this);
+        this.handleShowColumn = this.handleShowColumn.bind(this);
+        this.handleCloseColumn = this.handleCloseColumn.bind(this);
+        this.renameColumns = this.renameColumns.bind(this);
+    }
+
+    handleShowColumn(){
+        this.setState({
+            show_column: true
+        })
+    }
+
+    handleCloseColumn(){
+        this.setState({
+            show_column: false
+        })
+    }
+
+    renameColumns(){
+
     }
 
     handleShowAdd() {
@@ -256,7 +276,9 @@ class BoardView extends React.Component {
                             <Nav.Link id={"addIssueBtn"} onClick={this.handleShowAdd}>Add Issue</Nav.Link>
                             <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
                                 <NavDropdown.Item id={"renameBtn"}
-                                                  onClick={this.handleShow}>Rename</NavDropdown.Item>
+                                                  onClick={this.handleShow}>Rename Board</NavDropdown.Item>
+                                <NavDropdown.Item id={"renameColumnBtn"}
+                                                  onClick={this.handleShowColumn}>Rename Columns</NavDropdown.Item>
                                 <NavDropdown.Item id={"deleteBtn"} onClick={this.handleShowDelete}>Delete
                                     Board</NavDropdown.Item>
                             </NavDropdown>
@@ -402,6 +424,33 @@ class BoardView extends React.Component {
                             Delete
                         </Button>
                         <Button variant="danger" onClick={this.handleCloseDelete}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={this.state.show_column} onHide={this.handleCloseColumn}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Rename Columns</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className={"renameColumnsForm"}>
+                            {
+                                this.state.columns.map((column, i) =>
+                                    <Form.Group key={i} controlId={column['name']}>
+                                        <Form.Label>Column: {column['name']}</Form.Label>
+                                        <Form.Control name={"newColumnsName"} type="text"
+                                                       defaultValue={column['name']}/>
+                                    </Form.Group>
+                                )
+                            }
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="light" id={"renameColumnsBtn"} onClick={this.renameColumns}>
+                            Rename
+                        </Button>
+                        <Button variant="danger" onClick={this.handleCloseColumn}>
                             Cancel
                         </Button>
                     </Modal.Footer>
