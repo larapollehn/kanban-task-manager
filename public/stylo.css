@@ -110,6 +110,9 @@ body{
     font-size: 25px;
     border-bottom: 1px solid lightgrey;
     color: gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #createIssueContainer{
