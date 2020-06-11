@@ -7,6 +7,9 @@ import Column from "../models/Column";
 import CardDeck from "react-bootstrap/CardDeck";
 import Card from "react-bootstrap/Card";
 import Modal from 'react-modal';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import one from "../../public/images/one.jpeg";
 import two from "../../public/images/two.jpeg";
@@ -128,29 +131,34 @@ class Home extends React.Component {
         let columns = [column1, column2, column3, column4, column5, column6, column7, column8];
         columns = columns.filter(el => el !== '').map(column => new Column(column, []))
 
-        let boards = JSON.parse(localStorage.getItem('boards'));
-
-        if (id === "board1") {
-            this.props.board1.name = boardName;
-            this.props.board1.columns = columns;
-            boards[0] = new Board(boardName, columns);
-        } else if (id === 'board2') {
-            this.props.board2.name = boardName;
-            this.props.board2.columns = columns;
-            boards[1] = new Board(boardName, columns);
-        } else if (id === 'board3') {
-            this.props.board3.name = boardName;
-            this.props.board3.columns = columns;
-            boards[2] = new Board(boardName, columns);
+        if(columns.length < 1 || boardName === ''){
+            toast.error("❕ Please complete required fields.");
+            this.displayCreateForm();
         } else {
-            throw new Error("Invalid id for board");
+            let boards = JSON.parse(localStorage.getItem('boards'));
+
+            if (id === "board1") {
+                this.props.board1.name = boardName;
+                this.props.board1.columns = columns;
+                boards[0] = new Board(boardName, columns);
+            } else if (id === 'board2') {
+                this.props.board2.name = boardName;
+                this.props.board2.columns = columns;
+                boards[1] = new Board(boardName, columns);
+            } else if (id === 'board3') {
+                this.props.board3.name = boardName;
+                this.props.board3.columns = columns;
+                boards[2] = new Board(boardName, columns);
+            } else {
+                throw new Error("Invalid id for board");
+            }
+            localStorage.setItem('boards', JSON.stringify(boards));
+
+            //this.displayCreateForm();
+            this.handleCloseModal();
+
+            this.redirectToBoard(id);
         }
-        localStorage.setItem('boards', JSON.stringify(boards));
-
-        //this.displayCreateForm();
-        this.handleCloseModal();
-
-        this.redirectToBoard(id);
     }
 
     render() {
@@ -196,12 +204,12 @@ class Home extends React.Component {
                         <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
                         <br/>
                         <Form.Group controlId={"boardName"}>
-                            <Form.Label>Board Name</Form.Label>
+                            <Form.Label>Board Name *</Form.Label>
                             <Form.Control placeholder="Board name..." />
                         </Form.Group>
                         <Form.Row>
                             <Form.Group as={Col} controlId="column1">
-                                <Form.Label>Column 1</Form.Label>
+                                <Form.Label>Column 1 *</Form.Label>
                                 <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
 
@@ -257,6 +265,7 @@ class Home extends React.Component {
                             Cancel
                         </Button>
                     </Form>
+                    <ToastContainer />
                 </Modal>
             </div>
         )

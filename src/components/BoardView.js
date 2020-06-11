@@ -12,6 +12,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import trashCan from "../../public/images/bin.png";
 import Modal from "react-bootstrap/Modal";
@@ -89,11 +91,17 @@ class BoardView extends React.Component {
         console.assert(priority !== null, "Priority must not be null");
         console.assert(typeof priority === "number", "Priority should be a number");
 
-        this.appendIssueToColumn(category, issueTitle, priority);
+        if (issueTitle === '' || priority === undefined){
+            toast.error("❕ Please fill out all fields.");
 
-        this.handleCloseAdd();
+        }else {
+            this.appendIssueToColumn(category, issueTitle, priority);
 
-        document.getElementById("issueTitle").value = '';
+            this.handleCloseAdd();
+
+            document.getElementById("issueTitle").value = '';
+        }
+
     }
 
     appendIssueToColumn(category, issueTitle, priority) {
@@ -192,9 +200,14 @@ class BoardView extends React.Component {
 
     renameBoard() {
         let newName = document.getElementById('newBoardName').value;
-        this.saveChangedBoard(false, newName);
-        this.handleClose();
-        document.getElementById('newBoardName').value = '';
+        if(newName === ''){
+            toast.error('❕ Choose a new name or cancel.')
+        } else{
+            this.saveChangedBoard(false, newName);
+            this.handleClose();
+            document.getElementById('newBoardName').value = '';
+        }
+
     }
 
     handleShowDelete() {
@@ -294,7 +307,7 @@ class BoardView extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Create a new Issue</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body className={"modal-body"}>
+                    <Modal.Body style={{backgroundColor: "#FFE458"}}>
                         <Form>
                             <Form.Group controlId={"issueTitle"}>
                                 <Form.Label>Issue Title</Form.Label>
@@ -349,6 +362,7 @@ class BoardView extends React.Component {
                             Cancel
                         </Button>
                     </Modal.Footer>
+                    <ToastContainer />
                 </Modal>
 
 
@@ -373,6 +387,7 @@ class BoardView extends React.Component {
                             Cancel
                         </Button>
                     </Modal.Footer>
+                    <ToastContainer />
                 </Modal>
 
                 <Modal show={this.state.show_delete} onHide={this.handleCloseDelete}>
@@ -381,7 +396,7 @@ class BoardView extends React.Component {
                     </Modal.Header>
                     <Modal.Body>Are you sure you want to delete the board?</Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" id={"renameBtn"} onClick={this.deleteBoard}>
+                        <Button variant="light" id={"deleteBtn"} onClick={this.deleteBoard}>
                             Delete
                         </Button>
                         <Button variant="danger" onClick={this.handleCloseDelete}>
