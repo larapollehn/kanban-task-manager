@@ -206,3 +206,7 @@ a{
 .dropDownMenu{
     color: grey !important;
 }
+
+.modal-footer{
+  border-top: none !important;
+}

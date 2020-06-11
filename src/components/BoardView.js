@@ -20,6 +20,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import ReactHtmlParser from 'react-html-parser';
 
 /**
  *
@@ -350,7 +351,7 @@ class BoardView extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Create a new Issue</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body style={{backgroundColor: "#FFE458"}}>
+                    <Modal.Body style={{backgroundColor: "#FFE458", margin: "10px", borderRadius: "8px" }}>
                         <Form>
                             <Form.Group controlId={"issueTitle"}>
                                 <Form.Label>Issue Title</Form.Label>
@@ -375,22 +376,22 @@ class BoardView extends React.Component {
                                 <Col sm={10}>
                                     <Form.Check
                                         type="radio"
-                                        label="Urgent"
+                                        label={ReactHtmlParser("<span class='badge badge-danger'>Urgent</span>")}
                                         name="radio"
                                     />
                                     <Form.Check
                                         type="radio"
-                                        label="High"
+                                        label={ReactHtmlParser("<span class='badge badge-warning'>High</span>")}
                                         name="radio"
                                     />
                                     <Form.Check
                                         type="radio"
-                                        label="Medium"
+                                        label={ReactHtmlParser("<span class='badge badge-info'>Medium</span>")}
                                         name="radio"
                                     />
                                     <Form.Check
                                         type="radio"
-                                        label="Low"
+                                        label={ReactHtmlParser("<span class='badge badge-success'>Low</span>")}
                                         name="radio"
                                     />
                                 </Col>
