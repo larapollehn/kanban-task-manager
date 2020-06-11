@@ -77,7 +77,17 @@ class BoardView extends React.Component {
     }
 
     renameColumns(){
-
+        let newColumnNames = [];
+        for (let i = 0; i < this.state.columns.length; i++){
+            let column = document.getElementById(`columnRename${i}`).value;
+            newColumnNames.push(column);
+        }
+        let columns = this.state.columns;
+        for (let j = 0; j < newColumnNames.length; j++){
+            columns[j]['name'] = newColumnNames[j];
+        }
+        this.saveChangedBoard(false, false, columns);
+        this.handleCloseColumn();
     }
 
     handleShowAdd() {
@@ -138,7 +148,7 @@ class BoardView extends React.Component {
         this.saveChangedBoard(stateColumns);
     }
 
-    saveChangedBoard(columns, name) {
+    saveChangedBoard(columns, name, newColumns) {
         let stateBoard = this.state.board;
         if (columns !== false) {
             stateBoard.columns = this.state.columns;
@@ -146,12 +156,17 @@ class BoardView extends React.Component {
                 columns: columns,
                 board: stateBoard
             })
-        } else if (name) {
-            let stateBoard = this.state.board;
+        } else if (name !== false) {
             stateBoard.name = name;
             this.setState({
                 board: stateBoard,
                 name: name
+            })
+        } else if (newColumns !== false){
+            stateBoard.columns = newColumns;
+            this.setState({
+                board: stateBoard,
+                columns: newColumns
             })
         }
 
@@ -225,7 +240,7 @@ class BoardView extends React.Component {
         if(newName === ''){
             toast.error('❕ Choose a new name or cancel.')
         } else{
-            this.saveChangedBoard(false, newName);
+            this.saveChangedBoard(false, newName, false);
             this.handleClose();
             document.getElementById('newBoardName').value = '';
         }
@@ -437,7 +452,7 @@ class BoardView extends React.Component {
                         <Form className={"renameColumnsForm"}>
                             {
                                 this.state.columns.map((column, i) =>
-                                    <Form.Group key={i} controlId={column['name']}>
+                                    <Form.Group key={i} controlId={`columnRename${i}`}>
                                         <Form.Label>Column: {column['name']}</Form.Label>
                                         <Form.Control name={"newColumnsName"} type="text"
                                                        defaultValue={column['name']}/>
