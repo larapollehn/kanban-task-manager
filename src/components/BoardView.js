@@ -156,9 +156,11 @@ class BoardView extends React.Component {
     }
 
     dragstartHandler(event) {
+        event.persist();
         let column = event.target.parentElement.parentElement.id;
         let issue = event.target.id;
         let theIssue = this.state.columns[column]['issues'][issue];
+        console.log(event, column, issue);
         this.setState({
             dragIssue: [column, issue, theIssue]
         })
