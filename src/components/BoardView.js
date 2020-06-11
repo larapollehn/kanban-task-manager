@@ -91,6 +91,7 @@ class BoardView extends React.Component {
 
         this.appendIssueToColumn(category, issueTitle, priority);
 
+        this.handleCloseAdd();
 
         document.getElementById("issueTitle").value = '';
     }
@@ -293,7 +294,7 @@ class BoardView extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Create a new Issue</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className={"modal-body"}>
                         <Form>
                             <Form.Group controlId={"issueTitle"}>
                                 <Form.Label>Issue Title</Form.Label>
