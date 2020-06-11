@@ -38,10 +38,10 @@ class BoardView extends React.Component {
             board: state.board,
             dragIssue: [],
             show: false,
-            show_delete: false
+            show_delete: false,
+            show_add: false,
         }
         this.addIssue = this.addIssue.bind(this);
-        this.displayAddIssueForm = this.displayAddIssueForm.bind(this);
         this.dragstartHandler = this.dragstartHandler.bind(this);
         this.dropHandler = this.dropHandler.bind(this);
         this.dragOverHandler = this.dragOverHandler.bind(this);
@@ -54,20 +54,20 @@ class BoardView extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleShowDelete = this.handleShowDelete.bind(this);
         this.handleCloseDelete = this.handleCloseDelete.bind(this);
+        this.handleShowAdd = this.handleShowAdd.bind(this);
+        this.handleCloseAdd = this.handleCloseAdd.bind(this);
     }
 
-    /**
-     *
-     */
-    displayAddIssueForm() {
-        /**let visibilityStatus = document.getElementById("createIssueContainer").style.display;
-         if (visibilityStatus === 'none') {
-            document.getElementById("createIssueContainer").style.display = 'block';
-        } else if (visibilityStatus === 'block') {
-            document.getElementById("createIssueContainer").style.display = 'none';
-        } else {
-            document.getElementById("createIssueContainer").style.display = 'block';
-        }**/
+    handleShowAdd() {
+        this.setState({
+            show_add: true
+        })
+    }
+
+    handleCloseAdd() {
+        this.setState({
+            show_add: false
+        })
     }
 
     /**
@@ -78,6 +78,7 @@ class BoardView extends React.Component {
         let category = document.getElementById("category").value;
 
         let radios = document.getElementsByName("radio");
+
         let priority;
         for (let i = 0; i < radios.length; i++) {
             if (radios[i].checked) {
@@ -90,7 +91,6 @@ class BoardView extends React.Component {
 
         this.appendIssueToColumn(category, issueTitle, priority);
 
-        this.displayAddIssueForm();
 
         document.getElementById("issueTitle").value = '';
     }
@@ -196,13 +196,13 @@ class BoardView extends React.Component {
         document.getElementById('newBoardName').value = '';
     }
 
-    handleShowDelete(){
+    handleShowDelete() {
         this.setState({
             show_delete: true
         })
     }
 
-    handleCloseDelete(){
+    handleCloseDelete() {
         this.setState({
             show_delete: false
         })
@@ -237,7 +237,7 @@ class BoardView extends React.Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link id={"addIssueBtn"} onClick={this.displayAddIssueForm()}>Add Issue</Nav.Link>
+                            <Nav.Link id={"addIssueBtn"} onClick={this.handleShowAdd}>Add Issue</Nav.Link>
                             <NavDropdown title="Menu" id="dropdown-basic-button" alignRight>
                                 <NavDropdown.Item id={"renameBtn"}
                                                   onClick={this.handleShow}>Rename</NavDropdown.Item>
@@ -285,38 +285,71 @@ class BoardView extends React.Component {
                     </Row>
                 </Container>
 
-                <img src={trashCan} id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}>
+                <img src={trashCan} id={"trashCan"} onDrop={this.dropHandler} onDragOver={this.dragOverHandler}
+                     alt={"trashCan"}/>
 
-                </img>
 
+                <Modal show={this.state.show_add} onHide={this.handleCloseAdd}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create a new Issue</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId={"issueTitle"}>
+                                <Form.Label>Issue Title</Form.Label>
+                                <Form.Control placeholder="Issue title..."/>
+                            </Form.Group>
 
-                <div id={"createIssueContainer"} className={"createIssueContainer"}>
-                    <h3>Create a new Issue</h3>
-                    <div>
-                        <label>Issue title</label>
-                        <input type={"text"} name={"issueTitle"} id={"issueTitle"} placeholder={"Issue title..."}/>
-                    </div>
-                    <div>
-                        <label>Category</label>
-                        <select id="category" name="category">
-                            {
-                                this.state.columns.map((column, i) =>
-                                    <option key={i} value={i}>{column['name']}</option>
-                                )
-                            }
-                        </select>
-                    </div>
-                    <div>
-                        {
-                            this.state.priorities.map((level, i) =>
-                                <label key={i} className="priorityRadioBtn">{level}
-                                    <input type="radio" name="radio" value={level}/>
-                                </label>
-                            )
-                        }
-                    </div>
-                    <button onClick={this.addIssue}>Add Issue</button>
-                </div>
+                            <Form.Group controlId="issueCategorySection">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Control as="select" id={"category"}>
+                                    {
+                                        this.state.columns.map((column, i) =>
+                                            <option key={i} value={i}>{column['name']}</option>
+                                        )
+                                    }
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group as={Row} controlId="issuePrioritySection">
+                                <Form.Label as="legend" column sm={12}>
+                                    Priority Level
+                                </Form.Label>
+                                <Col sm={10}>
+                                    <Form.Check
+                                        type="radio"
+                                        label="Urgent"
+                                        name="radio"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="High"
+                                        name="radio"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Medium"
+                                        name="radio"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Low"
+                                        name="radio"
+                                    />
+                                </Col>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="light" id={"renameBtn"} onClick={this.addIssue}>
+                            Add
+                        </Button>
+                        <Button variant="danger" onClick={this.handleCloseAdd}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
@@ -325,14 +358,16 @@ class BoardView extends React.Component {
                     <Modal.Body>
                         <Form.Row>
                             <Form className={"createBoardForm"}>
+                            <Form.Group controlId={"newBoardName"}>
                                 <Form.Label>New Board Name</Form.Label>
-                                <Form.Control name={"newBoardName"} id={"newBoardName"} type="text"
+                                <Form.Control name={"newBoardName"} type="text"
                                               placeholder="New name..."/>
+                            </Form.Group>
                             </Form>
                         </Form.Row>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="light" id={"renameBtn"} onClick={this.renameBoard}>
+                        <Button variant="light" controlId={"renameBtn"} onClick={this.renameBoard}>
                             Rename
                         </Button>
                         <Button variant="danger" onClick={this.handleClose}>
@@ -361,10 +396,7 @@ class BoardView extends React.Component {
         )
     }
 
-    componentDidMount() {
-        let radios = document.getElementsByName('radio');
-        radios[3].checked = true;
-    }
+
 }
 
 const mapStateToProps = state => ({

@@ -154,6 +154,7 @@ class Home extends React.Component {
     }
 
     render() {
+        Modal.setAppElement("#root");
         console.assert(this.props.board1 !== null && this.props.board2 !== null && this.props.board3 !== null);
         return (
             <div id="homeContainer">
@@ -191,59 +192,58 @@ class Home extends React.Component {
                     contentLabel="Minimal Modal Example"
                     style={{content: {backgroundColor: '#FF9158'}}}
                 >
-                    <Form className={"createBoardForm"}>
+                    <Form className={"createBoardForm"} controlid={"createBoardForm"}>
                         <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
                         <br/>
-                        <Form.Group controlId="formGridAddress1">
+                        <Form.Group controlId={"boardName"}>
                             <Form.Label>Board Name</Form.Label>
-                            <Form.Control id={"boardName"} placeholder="Board name..." />
+                            <Form.Control placeholder="Board name..." />
                         </Form.Group>
-
                         <Form.Row>
                             <Form.Group as={Col} controlId="column1">
                                 <Form.Label>Column 1</Form.Label>
-                                <Form.Control id={"column1"} type="text" placeholder="Column name..." />
+                                <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="column2">
                                 <Form.Label>Column 2</Form.Label>
-                                <Form.Control id={"column2"} type="text" placeholder="Column name..." />
+                                <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="column3">
                                 <Form.Label>Column 3</Form.Label>
-                                <Form.Control id={"column3"} type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..." />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="column4">
                                 <Form.Label>Column 4</Form.Label>
-                                <Form.Control id={"column4"} type="text" placeholder="Column name..." />
+                                <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="column5">
                                 <Form.Label>Column 5</Form.Label>
-                                <Form.Control id={"column5"} type="text" placeholder="Column name..." />
+                                <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="column6">
                                 <Form.Label>Column 6</Form.Label>
-                                <Form.Control id={"column6"} type="text" placeholder="Column name..." />
+                                <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="column7">
                                 <Form.Label>Column 7</Form.Label>
-                                <Form.Control id={"column7"} type="text" placeholder="Column name..." />
+                                <Form.Control  type="text" placeholder="Column name..." />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="column8">
                                 <Form.Label>Column 8</Form.Label>
-                                <Form.Control id={"column8"} type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..." />
                             </Form.Group>
                         </Form.Row>
 
