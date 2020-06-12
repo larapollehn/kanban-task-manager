@@ -17,13 +17,15 @@ import Column from "../models/Column";
 import one from "../../public/images/one.jpeg";
 import two from "../../public/images/two.jpeg";
 import three from "../../public/images/three.jpeg";
+import laptop from "../../public/images/laptop.png";
 
 class Home extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             currentBoard: '',
-            showModal: false
+            showModal: false,
+            screenWidth: window.matchMedia("(min-width: 769px)").matches
         }
         this.handleBoardClick = this.handleBoardClick.bind(this);
         this.redirectToBoard = this.redirectToBoard.bind(this);
@@ -156,126 +158,144 @@ class Home extends React.Component {
     }
 
     render() {
-        Modal.setAppElement("#root");
-        console.assert(this.props.board1 !== null && this.props.board2 !== null && this.props.board3 !== null);
-        return (
-            <div id="homeContainer">
-                <div className="homeTitles">
-                    <p id={"title"}>Kanban Online</p>
-                    <p id={"subTitle"}>Up Your Productivity</p>
-                </div>
+        if(this.state.screenWidth){
+            Modal.setAppElement("#root");
+            console.assert(this.props.board1 !== null && this.props.board2 !== null && this.props.board3 !== null);
+            return (
+                <div id="homeContainer">
+                    <div className="homeTitles">
+                        <p id={"title"}>Kanban Online</p>
+                        <p id={"subTitle"}>Up Your Productivity</p>
+                    </div>
 
-                <div className="boardContainer">
-                    <CardDeck>
-                        <Card className={"boardCards"} onClick={() => this.handleBoardClick('board1')}>
-                            <Card.Img variant="top" src={one}/>
-                            <Card.Body>
-                                <Card.Title><h2>{this.props.board1.name}</h2></Card.Title>
-                            </Card.Body>
-                        </Card>
-                        <Card className={"boardCards"} onClick={() => this.handleBoardClick('board2')}>
-                            <Card.Img variant="top" src={two}/>
-                            <Card.Body>
-                                <Card.Title><h2>{this.props.board2.name}</h2></Card.Title>
-                            </Card.Body>
-                        </Card>
-                        <Card className={"boardCards"} onClick={() => this.handleBoardClick('board3')}>
-                            <Card.Img variant="top" src={three}/>
-                            <Card.Body>
-                                <Card.Title><h3>{this.props.board3.name}</h3></Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </CardDeck>
-                </div>
+                    <div className="boardContainer">
+                        <CardDeck>
+                            <Card className={"boardCards"} onClick={() => this.handleBoardClick('board1')}>
+                                <Card.Img variant="top" src={one}/>
+                                <Card.Body>
+                                    <Card.Title><h2>{this.props.board1.name}</h2></Card.Title>
+                                </Card.Body>
+                            </Card>
+                            <Card className={"boardCards"} onClick={() => this.handleBoardClick('board2')}>
+                                <Card.Img variant="top" src={two}/>
+                                <Card.Body>
+                                    <Card.Title><h2>{this.props.board2.name}</h2></Card.Title>
+                                </Card.Body>
+                            </Card>
+                            <Card className={"boardCards"} onClick={() => this.handleBoardClick('board3')}>
+                                <Card.Img variant="top" src={three}/>
+                                <Card.Body>
+                                    <Card.Title><h3>{this.props.board3.name}</h3></Card.Title>
+                                </Card.Body>
+                            </Card>
+                        </CardDeck>
+                    </div>
 
-                <div className={"instructionsSection"}>
-                    <Row>
-                        <Col>
-                            <div className={"instructionIcon"}>1</div>
-                            <div className={"instructionsText"}>Create up to three Kanban Boards with up to 8 custom
-                                columns.
-                            </div>
-                        </Col>
-                        <Col>
-                            <div className={"instructionIcon"}>2</div>
-                            <div className={"instructionsText"}>Create as many issues as you like and assign a level of
-                                urgency.
-                            </div>
-                        </Col>
-                        <Col>
-                            <div className={"instructionIcon"}>3</div>
-                            <div className={"instructionsText"}>Keep an eye on your progress by moving the issues.</div>
-                        </Col>
-                        <Col>
-                            <div className={"instructionIcon"}>4</div>
-                            <div className={"instructionsText"}>Edit the name of the board and columns if needed.</div>
-                        </Col>
-                    </Row>
-                </div>
+                    <div className={"instructionsSection"}>
+                        <Row>
+                            <Col>
+                                <div className={"instructionIcon"}>1</div>
+                                <div className={"instructionsText"}>Create up to three Kanban Boards with up to 8 custom
+                                    columns.
+                                </div>
+                            </Col>
+                            <Col>
+                                <div className={"instructionIcon"}>2</div>
+                                <div className={"instructionsText"}>Create as many issues as you like and assign a level of
+                                    urgency.
+                                </div>
+                            </Col>
+                            <Col>
+                                <div className={"instructionIcon"}>3</div>
+                                <div className={"instructionsText"}>Keep an eye on your progress by moving the issues.</div>
+                            </Col>
+                            <Col>
+                                <div className={"instructionIcon"}>4</div>
+                                <div className={"instructionsText"}>Edit the name of the board and columns if needed.</div>
+                            </Col>
+                        </Row>
+                    </div>
 
-                <Modal
-                    isOpen={this.state.showModal}
-                    contentLabel="Minimal Modal Example"
-                    style={{content: {backgroundColor: '#1C2B5D', color: "white", padding: "120px"}}}
-                >
-                    <Form className={"createBoardForm"} controlid={"createBoardForm"}>
-                        <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
-                        <br/>
-                        <Form.Group controlId={"boardName"}>
-                            <Form.Label>Board Name *</Form.Label>
-                            <Form.Control placeholder="Board name..."/>
-                        </Form.Group>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="column1">
-                                <Form.Label>Column 1 *</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
+                    <Modal
+                        isOpen={this.state.showModal}
+                        contentLabel="Minimal Modal Example"
+                        style={{content: {backgroundColor: '#1C2B5D', color: "white", padding: "120px"}}}
+                    >
+                        <Form className={"createBoardForm"} controlid={"createBoardForm"}>
+                            <h2 id={"createFormTitle"}>Create your Kanban Board</h2>
+                            <br/>
+                            <Form.Group controlId={"boardName"}>
+                                <Form.Label>Board Name *</Form.Label>
+                                <Form.Control placeholder="Board name..."/>
                             </Form.Group>
-                            <Form.Group as={Col} controlId="column2">
-                                <Form.Label>Column 2</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="column3">
-                                <Form.Label>Column 3</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="column4">
-                                <Form.Label>Column 4</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="column5">
-                                <Form.Label>Column 5</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="column6">
-                                <Form.Label>Column 6</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="column7">
-                                <Form.Label>Column 7</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="column8">
-                                <Form.Label>Column 8</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..."/>
-                            </Form.Group>
-                        </Form.Row>
-                        <Button variant="success" onClick={this.createBoard}>
-                            Create Board
-                        </Button>{' '}
-                        <Button variant="danger" onClick={this.handleCloseModal}>
-                            Cancel
-                        </Button>
-                    </Form>
-                    <ToastContainer/>
-                </Modal>
-            </div>
-        )
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="column1">
+                                    <Form.Label>Column 1 *</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="column2">
+                                    <Form.Label>Column 2</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="column3">
+                                    <Form.Label>Column 3</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="column4">
+                                    <Form.Label>Column 4</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="column5">
+                                    <Form.Label>Column 5</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="column6">
+                                    <Form.Label>Column 6</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="column7">
+                                    <Form.Label>Column 7</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="column8">
+                                    <Form.Label>Column 8</Form.Label>
+                                    <Form.Control type="text" placeholder="Column name..."/>
+                                </Form.Group>
+                            </Form.Row>
+                            <Button variant="success" onClick={this.createBoard}>
+                                Create Board
+                            </Button>{' '}
+                            <Button variant="danger" onClick={this.handleCloseModal}>
+                                Cancel
+                            </Button>
+                        </Form>
+                        <ToastContainer/>
+                    </Modal>
+                </div>
+            )
+        } else {
+            return (
+                <div id="mobileContainer">
+                    <div className="homeTitles">
+                        <p id={"title"}>Kanban Online</p>
+                        <p id={"subTitle"}>Up Your Productivity</p>
+                    </div>
+                    <div className={"mobileScreenContainer"}>
+                        <img className={"mobileScreen"} src={laptop} alt={"sadFace"}/>
+                    </div>
+                    <div className={"mobileSubTitle"}>
+                        <h2>Available for Laptop and Computer only</h2>
+                    </div>
+                </div>
+            )
+        }
+
     }
 
     /**
