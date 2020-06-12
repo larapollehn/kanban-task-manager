@@ -1,32 +1,28 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
-import Board from "../models/Board";
-import Column from "../models/Column";
 import CardDeck from "react-bootstrap/CardDeck";
 import Card from "react-bootstrap/Card";
 import Modal from 'react-modal';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
-import one from "../../public/images/one.jpeg";
-import two from "../../public/images/two.jpeg";
-import three from "../../public/images/three.jpeg";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
+import {setBoard1, setBoard2, setBoard3} from "../actions/HomeActions";
+import Board from "../models/Board";
+import Column from "../models/Column";
+import one from "../../public/images/one.jpeg";
+import two from "../../public/images/two.jpeg";
+import three from "../../public/images/three.jpeg";
+
 class Home extends React.Component {
     constructor(props) {
         super(props)
-        /*
-         *
-         */
         this.state = {
-            currentBoard: 0,
+            currentBoard: '',
             showModal: false
         }
         this.handleBoardClick = this.handleBoardClick.bind(this);
@@ -46,8 +42,8 @@ class Home extends React.Component {
     }
 
     /**
-     *
-     * @param event
+     * if a board is empty user can create it
+     * if board was already created redirect user to board
      */
     handleBoardClick(event) {
         let id = event;
@@ -76,7 +72,8 @@ class Home extends React.Component {
     }
 
     /**
-     *
+     * based on the id, representing the board that was clicked,
+     * redirect user to board
      * @param id
      */
     redirectToBoard(id) {
@@ -98,9 +95,9 @@ class Home extends React.Component {
     }
 
     /**
-     *
-     * @param id
-     * @param display
+     * if clicked board is empty display the form to create it
+     * @param id of board
+     * @param display controls if modal is shown or hidden
      */
     displayCreateForm(id, display) {
         let form = document.getElementById('createBoardContainer');
@@ -115,12 +112,12 @@ class Home extends React.Component {
         })
     }
 
+    /**
+     * take user input to create a board and save to localstorage
+     */
     createBoard() {
         let id = this.state.currentBoard;
         const boardName = document.getElementById("boardName").value;
-        /*
-         * Hard coded. Not good
-         */
         const column1 = document.getElementById("column1").value;
         const column2 = document.getElementById("column2").value;
         const column3 = document.getElementById("column3").value;
@@ -132,12 +129,11 @@ class Home extends React.Component {
         let columns = [column1, column2, column3, column4, column5, column6, column7, column8];
         columns = columns.filter(el => el !== '').map(column => new Column(column, []))
 
-        if(columns.length < 1 || boardName === ''){
+        if (columns.length < 1 || boardName === '') {
             toast.error("❕ Please complete required fields.");
             this.displayCreateForm();
         } else {
             let boards = JSON.parse(localStorage.getItem('boards'));
-
             if (id === "board1") {
                 this.props.board1.name = boardName;
                 this.props.board1.columns = columns;
@@ -154,10 +150,7 @@ class Home extends React.Component {
                 throw new Error("Invalid id for board");
             }
             localStorage.setItem('boards', JSON.stringify(boards));
-
-            //this.displayCreateForm();
             this.handleCloseModal();
-
             this.redirectToBoard(id);
         }
     }
@@ -197,10 +190,26 @@ class Home extends React.Component {
 
                 <div className={"instructionsSection"}>
                     <Row>
-                        <Col><div className={"instructionIcon"}>1</div><div className={"instructionsText"}>Create up to three Kanban Boards with up to 8 custom columns.</div></Col>
-        <Col><div className={"instructionIcon"}>2</div><div className={"instructionsText"}>Create as many issues as you like and assign a level of urgency.</div></Col>
-        <Col><div className={"instructionIcon"}>3</div><div className={"instructionsText"}>Keep an eye on your progress by moving the issues.</div></Col>
-        <Col><div className={"instructionIcon"}>4</div><div className={"instructionsText"}>Edit the name of the board and columns if needed.</div></Col>
+                        <Col>
+                            <div className={"instructionIcon"}>1</div>
+                            <div className={"instructionsText"}>Create up to three Kanban Boards with up to 8 custom
+                                columns.
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className={"instructionIcon"}>2</div>
+                            <div className={"instructionsText"}>Create as many issues as you like and assign a level of
+                                urgency.
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className={"instructionIcon"}>3</div>
+                            <div className={"instructionsText"}>Keep an eye on your progress by moving the issues.</div>
+                        </Col>
+                        <Col>
+                            <div className={"instructionIcon"}>4</div>
+                            <div className={"instructionsText"}>Edit the name of the board and columns if needed.</div>
+                        </Col>
                     </Row>
                 </div>
 
@@ -214,72 +223,65 @@ class Home extends React.Component {
                         <br/>
                         <Form.Group controlId={"boardName"}>
                             <Form.Label>Board Name *</Form.Label>
-                            <Form.Control placeholder="Board name..." />
+                            <Form.Control placeholder="Board name..."/>
                         </Form.Group>
                         <Form.Row>
                             <Form.Group as={Col} controlId="column1">
                                 <Form.Label>Column 1 *</Form.Label>
-                                <Form.Control  type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
-
                             <Form.Group as={Col} controlId="column2">
                                 <Form.Label>Column 2</Form.Label>
-                                <Form.Control  type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
                         </Form.Row>
-
                         <Form.Row>
                             <Form.Group as={Col} controlId="column3">
                                 <Form.Label>Column 3</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
-
                             <Form.Group as={Col} controlId="column4">
                                 <Form.Label>Column 4</Form.Label>
-                                <Form.Control  type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
                         </Form.Row>
-
                         <Form.Row>
                             <Form.Group as={Col} controlId="column5">
                                 <Form.Label>Column 5</Form.Label>
-                                <Form.Control  type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
-
                             <Form.Group as={Col} controlId="column6">
                                 <Form.Label>Column 6</Form.Label>
-                                <Form.Control  type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
                         </Form.Row>
-
                         <Form.Row>
                             <Form.Group as={Col} controlId="column7">
                                 <Form.Label>Column 7</Form.Label>
-                                <Form.Control  type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
-
                             <Form.Group as={Col} controlId="column8">
                                 <Form.Label>Column 8</Form.Label>
-                                <Form.Control type="text" placeholder="Column name..." />
+                                <Form.Control type="text" placeholder="Column name..."/>
                             </Form.Group>
                         </Form.Row>
-
-
-
                         <Button variant="success" onClick={this.createBoard}>
                             Create Board
                         </Button>{' '}
-
                         <Button variant="danger" onClick={this.handleCloseModal}>
                             Cancel
                         </Button>
                     </Form>
-                    <ToastContainer />
+                    <ToastContainer/>
                 </Modal>
             </div>
         )
     }
 
+    /**
+     * get saved boards from localstorage,
+     * or put empty default boards in localstorage
+     */
     componentDidMount() {
         if (localStorage.getItem('boards') === null) {
             const board1 = new Board('untitled', []);
