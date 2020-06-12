@@ -17,6 +17,7 @@ import three from "../../public/images/three.jpeg";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 class Home extends React.Component {
     constructor(props) {
@@ -192,6 +193,15 @@ class Home extends React.Component {
                             </Card.Body>
                         </Card>
                     </CardDeck>
+                </div>
+
+                <div className={"instructionsSection"}>
+                    <Row>
+                        <Col><div className={"instructionIcon"}>1</div><div className={"instructionsText"}>Create up to three Kanban Boards with up to 8 custom columns.</div></Col>
+        <Col><div className={"instructionIcon"}>2</div><div className={"instructionsText"}>Create as many issues as you like and assign a level of urgency.</div></Col>
+        <Col><div className={"instructionIcon"}>3</div><div className={"instructionsText"}>Keep an eye on your progress by moving the issues.</div></Col>
+        <Col><div className={"instructionIcon"}>4</div><div className={"instructionsText"}>Edit the name of the board and columns if needed.</div></Col>
+                    </Row>
                 </div>
 
                 <Modal

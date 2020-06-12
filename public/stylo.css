@@ -1,101 +1,100 @@
-body{
+body {
     padding: 0;
     margin: 0;
 }
 
-.homeTitles{
+.homeTitles {
     text-align: center;
     line-height: 0.8;
     padding-top: 50px;
 }
 
 
-
-#title{
+#title {
     font-size: 50px;
     font-weight: bold;
 }
 
-#subTitle{
+#subTitle {
     font-size: 20px;
 }
 
-.boardContainer{
-    padding-top: 100px;
+.boardContainer {
+    padding-top: 60px;
     text-align: center;
     width: 80%;
     margin: 0 auto;
     cursor: pointer;
 }
 
-.boardCards{
+.boardCards {
     border: 1px solid lightgray !important;
 }
 
-.boardCards:hover{
+.boardCards:hover {
     background-color: #1C2B5D;
     color: white;
 }
 
-.createBoardForm{
+.createBoardForm {
     width: 60%;
     margin: 0 auto;
 }
 
 
-.boardViewContainer{
+.boardViewContainer {
     height: 100vh;
     width: 100%;
 }
 
-#boardViewNavBar{
+#boardViewNavBar {
     height: 5%;
     border-bottom: 1px solid black;
 }
 
-#boardViewUl{
+#boardViewUl {
     list-style: none;
     padding: 0;
     margin: 0;
     overflow: hidden;
 }
 
-.boardViewLi{
+.boardViewLi {
     float: right;
 }
 
-.boardViewLi:first-child{
+.boardViewLi:first-child {
     float: left;
     font-size: 30px;
     font-weight: bold;
     margin-left: 15px;
 }
 
-.boardViewLi:last-child{
+.boardViewLi:last-child {
     margin: 10px 15px;
     cursor: pointer;
 }
 
-.boardViewLi:nth-child(2){
+.boardViewLi:nth-child(2) {
     margin: 10px 15px;
 }
 
-#renameBtn{
+#renameBtn {
     cursor: pointer;
 }
 
-#deleteBtn{
+#deleteBtn {
     cursor: pointer;
 }
 
-.columnsContainer{
+.columnsContainer {
     margin-top: 2%;
     min-height: 50%;
     width: 100%;
     text-align: center;
 }
 
-.kanbanColumn{
+.kanbanColumn {
     height: 650px;
     display: block;
     border: 1px solid lightgrey;
@@ -104,17 +103,17 @@ body{
     overflow: auto;
 }
 
-.kanbanColumn:first-child{
+.kanbanColumn:first-child {
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
 
-.kanbanColumn:last-child{
+.kanbanColumn:last-child {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 
-#columnName{
+#columnName {
     height: 30px;
     font-size: 25px;
     border-bottom: 1px solid lightgrey;
@@ -124,14 +123,14 @@ body{
     text-overflow: ellipsis;
 }
 
-#createIssueContainer{
+#createIssueContainer {
     display: none;
     text-align: center;
     line-height: 2;
     border: 1px solid black;
 }
 
-.issue{
+.issue {
     cursor: pointer;
     margin-bottom: 10px;
     min-height: 50px;
@@ -140,11 +139,11 @@ body{
     border-radius: 8px !important;
 }
 
-#columnIssues{
+#columnIssues {
     list-style-type: none;
 }
 
-#trashCan{
+#trashCan {
     margin-top: 30px;
     margin-right: 20px;
     width: 100px;
@@ -153,44 +152,44 @@ body{
     float: right;
 }
 
-#trashCan:hover{
+#trashCan:hover {
     width: 120px;
     height: 120px;
 }
 
-#renameBoardSection{
+#renameBoardSection {
     display: none;
 }
 
-#deleteBoardSection{
+#deleteBoardSection {
     display: none;
 }
 
-.breadcrumb{
+.breadcrumb {
     background-color: transparent !important;
     margin-bottom: 0 !important;
 }
 
-.mainBoard{
+.mainBoard {
     padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-a{
+a {
     color: white !important;
     font-weight: bold !important;
 }
 
-.navbar{
+.navbar {
     background-color: #1C2B5D !important;
 }
 
-.nav-link{
+.nav-link {
     color: white !important;
 }
 
-.breadcrumb-item{
+.breadcrumb-item {
     color: white !important;
 }
 
@@ -203,10 +202,35 @@ a{
     color: white !important;
 }
 
-.dropDownMenu{
+.dropDownMenu {
     color: grey !important;
 }
 
-.modal-footer{
-  border-top: none !important;
+.modal-footer {
+    border-top: none !important;
+}
+
+.instructionsSection {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 70px;
+}
+
+.instructionIcon {
+    width: 80px;
+    height: 80px;
+    border-radius: 90%;
+    margin: 0 auto;
+    font-size: 35px;
+    line-height: 80px;
+    font-weight: bolder;
+    color: white;
+    margin-bottom: 15px;
+    background: linear-gradient(.1turn,#CCCCFF 0%,#CCCCFF 20%,#8080FF 80%,#8080FF 100%);
+}
+
+.instructionsText {
+    margin: 0 auto;
+    width: 200px;
 }
