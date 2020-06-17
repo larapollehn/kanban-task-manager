@@ -12,7 +12,7 @@ import BoardView from "./components/BoardView";
 export default function App() {
     return (
         <Provider store={store}>
-            <BrowserRouter  history={browserHistory} basename={'project/kanban'}>
+            <BrowserRouter basename={'project/kanban'}>
                 <Switch>
                     <Route path="/" exact><Home/></Route>
                     <Route path="/boardView" componet={BoardView}><BoardView/></Route>
