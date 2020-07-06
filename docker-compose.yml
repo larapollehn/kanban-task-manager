@@ -2,5 +2,6 @@ version: "3"
 services:
   kanban:
     build: .
+    restart: always
     ports:
     - 3002:80
